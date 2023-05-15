@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 export default function Header() {
-  const [show, setshow] = useState(false);
   return (
     <div className=' bg-white '>
       <nav className='2xl:container 2xl:mx-auto sm:py-6 sm:px-7 py-5 px-4'>
@@ -120,11 +119,9 @@ export default function Header() {
           {/* Burger Icon */}
           <div
             id='bgIcon'
-            onClick={() => setshow(!show)}
             className={`focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800  justify-center items-center sm:hidden cursor-pointer`}
           >
             <svg
-              className={`${show ? 'hidden' : ''}`}
               width={24}
               height={24}
               viewBox='0 0 24 24'
@@ -156,7 +153,6 @@ export default function Header() {
               />
             </svg>
             <svg
-              className={`${show ? 'block' : 'hidden'}`}
               width={24}
               height={24}
               viewBox='0 0 24 24'
@@ -181,10 +177,7 @@ export default function Header() {
           </div>
         </div>
         {/* Mobile and small-screen devices (toggle Menu) */}
-        <div
-          id='MobileNavigation'
-          className={`${show ? 'block' : 'hidden'} sm:hidden mt-4 mx-auto`}
-        >
+        <div id='MobileNavigation'>
           <div className='flex flex-row items-center justify-center space-x-6'>
             <svg
               className='focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 cursor-pointer'
