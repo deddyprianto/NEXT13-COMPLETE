@@ -1,12 +1,16 @@
-import './globals.css'
+import './globals.css';
 import { Plus_Jakarta_Sans } from 'next/font/google';
+import Header from './components/Header';
 
 const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ['latin'] });
 
 export default function RootLayout({ children }) {
   return (
     <html lang='en'>
-      <body className={plusJakartaSans.className}>{children}</body>
+      <body className={plusJakartaSans.className}>
+        <Header />
+        <div>{children}</div>
+      </body>
     </html>
   );
 }
