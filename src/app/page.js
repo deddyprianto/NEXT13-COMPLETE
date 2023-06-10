@@ -1,3 +1,9 @@
+import Main from './components/Main';
+
 export default function Page() {
-  return <h1>this is from Main</h1>;
+  return (
+    <div>
+      <Main />
+    </div>
+  );
 }

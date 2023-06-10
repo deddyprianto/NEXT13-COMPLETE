@@ -1,6 +1,6 @@
 import './globals.css';
 import { Plus_Jakarta_Sans } from 'next/font/google';
-import Header from './components/Header';
+import Sidebar from './components/Sidebar';
 
 const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ['latin'] });
 
@@ -8,8 +8,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang='en'>
       <body className={plusJakartaSans.className}>
-        <Header />
-        <div>{children}</div>
+        <div className='h-screen grid grid-cols-15 gap-x-2'>
+          <Sidebar />
+          {children}
+        </div>
       </body>
     </html>
   );
