@@ -8,7 +8,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang='en'>
       <body className={plusJakartaSans.className}>
-        <div className='h-screen grid grid-cols-15 gap-x-2'>
+        <div className='h-screen grid grid-cols-15 gap-x-2 overflow-x-auto '>
           <Sidebar />
           {children}
         </div>
