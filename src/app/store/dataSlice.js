@@ -1,19 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  inputdata: 'mamak kau mana emang',
-  response: [],
+  accessToken: '',
 };
 
 const dataSlice = createSlice({
-  name: 'testredux',
+  name: 'dataSlice',
   initialState,
   reducers: {
-    setDataInput: (state, action) => {
-      state.inputdata = action.payload;
+    setDataUser: (state, action) => {
+      state.accessToken = action.payload;
     },
   },
 });
 
-export const { setDataInput } = dataSlice.actions;
+export const { setDataUser } = dataSlice.actions;
 export default dataSlice.reducer;

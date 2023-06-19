@@ -1,24 +1,27 @@
 'use client';
-import Card from './Card';
-import { useDispatch, useSelector } from 'react-redux';
-import { setDataInput } from '../store/dataSlice';
+import MyModal from './MyModal';
+import { useSelector } from 'react-redux';
 
-export default function Main() {
-  const dispatch = useDispatch();
-  const inputan = useSelector((state) => state.testredux.inputdata);
-
+export default function Main({ data }) {
+  const token = useSelector((state) => state);
+  console.log(token);
   return (
     <div className='h-full overflow-x-auto'>
-      <h1 className='text-center mt-10 font-semibold'>YOUR DATA ENTRY</h1>
-      <div className='mt-5 grid grid-cols-2 gap-5'>
-        <Card />
+      <div className='w-9/12 m-auto flex justify-between items-center mt-10'>
+        <div className=' font-semibold'>YOUR DATA ENTRY</div>
+        <MyModal />
       </div>
-      <input
+      <div className='mt-5 grid grid-cols-2 gap-5'>
+        {/* {data.map((item) => (
+          <Card key={item.id} items={item} />
+        ))} */}
+      </div>
+      {/* <input
         className='mt-10 border-2 w-56'
         onChange={(e) => dispatch(setDataInput(e.target.value))}
         value={inputan}
       />
-      <p>{inputan}</p>
+      <p>{inputan}</p> */}
     </div>
   );
 }
