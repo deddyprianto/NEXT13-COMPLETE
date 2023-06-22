@@ -1,5 +1,4 @@
 export default function Page(props) {
-  console.log({ dedd: props });
   return <div>My ID Blog </div>;
 }
 export async function generateStaticParams() {

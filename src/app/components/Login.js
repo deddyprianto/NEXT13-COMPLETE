@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import { setAccessToken } from '../store/dataPersistedSlice';
 import { useDispatch } from 'react-redux';
 
-export default function Login() {
+export default function Login({ data }) {
   const dispatch = useDispatch();
   const router = useRouter();
   const emailRef = useRef();
@@ -26,7 +26,6 @@ export default function Login() {
       {
         loading: 'Loading',
         success: (data) => {
-          dispatch(setAccessToken(data.data.accessToken));
           router.push('/main');
           return `Successfully saved login`;
         },
@@ -49,6 +48,7 @@ export default function Login() {
   };
   return (
     <div className='w-2/6 shadow-2xl flex justify-center flex-col items-center p-5'>
+      <p className='text-xs'>{JSON.stringify(data)}</p>
       <div class='mb-6 w-full'>
         <label
           for='email'

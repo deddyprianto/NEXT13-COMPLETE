@@ -10,7 +10,7 @@ export default function RootLayout({ children }) {
     <html lang='en'>
       <body className={plusJakartaSans.className}>
         <Toaster
-          position='top-right'
+          position='top-center'
           toastOptions={{
             className: 'font-popins',
           }}
