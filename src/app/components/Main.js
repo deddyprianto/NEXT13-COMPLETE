@@ -2,13 +2,14 @@
 import MyModal from './MyModal';
 import { useSelector } from 'react-redux';
 
-export default function Main({ data }) {
-  const token = useSelector((state) => state);
-  console.log(token);
+export default function Main() {
+  const token = useSelector((state) => state.dataPersist.accessToken);
   return (
     <div className='h-full overflow-x-auto'>
       <div className='w-9/12 m-auto flex justify-between items-center mt-10'>
-        <div className=' font-semibold'>YOUR DATA ENTRY</div>
+        <div className='font-semibold flex flex-wrap'>
+          YOUR DATA ENTRY {token}
+        </div>
         <MyModal />
       </div>
       <div className='mt-5 grid grid-cols-2 gap-5'>

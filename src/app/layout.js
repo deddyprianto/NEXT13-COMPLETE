@@ -2,7 +2,6 @@ import './globals.css';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import Providers from './components/Provider';
 import { Toaster } from 'react-hot-toast';
-
 const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ['latin'] });
 
 export default function RootLayout({ children }) {
@@ -15,11 +14,7 @@ export default function RootLayout({ children }) {
             className: 'font-popins',
           }}
         />
-        <Providers>
-          <div className='w-screen h-screen flex justify-center items-center'>
-            {children}
-          </div>
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

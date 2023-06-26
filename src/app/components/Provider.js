@@ -7,7 +7,9 @@ const Providers = ({ children }) => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        {children}
+        <div className='w-screen h-screen flex justify-center items-center'>
+          {children}
+        </div>
       </PersistGate>
     </Provider>
   );

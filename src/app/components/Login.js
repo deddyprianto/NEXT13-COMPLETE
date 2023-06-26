@@ -25,7 +25,8 @@ export default function Login({ data }) {
       dataPromis,
       {
         loading: 'Loading',
-        success: (data) => {
+        success: ({ data }) => {
+          dispatch(setAccessToken(data.accessToken));
           router.push('/main');
           return `Successfully saved login`;
         },
