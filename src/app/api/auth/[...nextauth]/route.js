@@ -14,7 +14,7 @@ const handler = NextAuth({
         email: { label: 'email', type: 'email', placeholder: 'jsmith' },
         password: { label: 'Password', type: 'password' },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         const res = await fetch(
           'https://my-backend-infra.mhaidarhanif.com/api/auth/login',
           {
@@ -46,12 +46,12 @@ const handler = NextAuth({
     async jwt({ token, user }) {
       return { ...token, ...user };
     },
-    async session({ session, token, user }) {
+    async session({ session, token }) {
       session.user = token;
       return session;
     },
-    async redirect({ url, baseUrl }) {
-      return `${baseUrl}/main`;
+    async redirect({ baseUrl }) {
+      return `${baseUrl}/dashboard`;
     },
   },
 });

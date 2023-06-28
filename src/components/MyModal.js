@@ -4,8 +4,10 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setDataUser } from '../store/dataSlice';
+import { useSession } from 'next-auth/react';
 
 export default function MyModal() {
+  const session = useSession();
   const dispatch = useDispatch();
   const userNameRef = useRef();
   const jobTitleRef = useRef();
@@ -33,8 +35,7 @@ export default function MyModal() {
       payload,
       {
         headers: {
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbGl6b3gwczQwMDA0bXYwaHA2YjdtdHk2IiwiaWF0IjoxNjg2OTk0ODc0LCJleHAiOjE2ODY5OTUxNzR9.j4h4DMltzAQrFIrjyTwqoesWUO2LGtWO_BEjXv4nv2o',
+          Authorization: `Bearer ${session.data.user.accessToken}`,
           'Content-Type': 'application/json',
         },
       }

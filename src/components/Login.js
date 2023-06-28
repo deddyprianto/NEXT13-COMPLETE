@@ -1,52 +1,17 @@
 'use client';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
-import axios from 'axios';
-import toast from 'react-hot-toast';
+// import axios from 'axios';
+// import toast from 'react-hot-toast';
 // import { setAccessToken } from '../store/dataPersistedSlice';
-import { useSession, signIn, signOut } from 'next-auth/react';
+// import { useSession, signIn, signOut } from 'next-auth/react';
 
 export default function Login({ data }) {
   // const dispatch = useDispatch();
-  const router = useRouter();
+  // const router = useRouter();
   const emailRef = useRef();
   const passRef = useRef();
 
-  const loginHandle = () => {
-    const payload = {
-      email: emailRef.current.value,
-      password: passRef.current.value,
-    };
-    const dataPromis = axios.post(
-      'https://my-backend-infra.mhaidarhanif.com/api/auth/login',
-      payload
-    );
-    toast.promise(
-      dataPromis,
-      {
-        loading: 'Loading',
-        success: ({ data }) => {
-          // dispatch(setAccessToken(data.accessToken));
-          router.push('/main');
-          return `Successfully saved login`;
-        },
-        error: (err) => {
-          // dispatch(setAccessToken(err.message));
-          return `This just happened: ${err.message}`;
-        },
-      },
-      {
-        style: {
-          minWidth: '250px',
-          filter: 'drop-shadow(0 25px 25px rgb(0 0 0 / 0.15))',
-        },
-        success: {
-          duration: 5000,
-          icon: '🔥',
-        },
-      }
-    );
-  };
   return (
     <div className='w-2/6 shadow-2xl flex justify-center flex-col items-center p-5'>
       <p className='text-xs'>{JSON.stringify(data)}</p>
@@ -81,10 +46,7 @@ export default function Login({ data }) {
           required
         />
       </div>
-      <button
-        onClick={signIn}
-        className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
-      >
+      <button className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>
         Submit
       </button>
     </div>

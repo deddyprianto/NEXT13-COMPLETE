@@ -1,6 +1,6 @@
 export default function Card({ items }) {
   return (
-    <div className='max-w-2xl px-8 py-4 bg-white rounded-lg shadow-md dark:bg-gray-800'>
+    <div className='max-w-2xl px-8 py-4 bg-white rounded-lg shadow-2xl'>
       <div className='flex items-center justify-between'>
         <span className='text-sm font-light bg-green-400 rounded-xl text-white p-3'>
           {items.id}
@@ -21,7 +21,7 @@ export default function Card({ items }) {
           tabIndex='0'
           role='link'
         >
-          {items.title}
+          {items.product.name}
         </a>
         <p className='mt-2 text-gray-600 dark:text-gray-300'>{items.body}</p>
       </div>
@@ -37,17 +37,12 @@ export default function Card({ items }) {
         </a>
 
         <div className='flex items-center'>
-          <img
-            className='hidden object-cover w-10 h-10 mx-4 rounded-full sm:block'
-            src={items.imageUrl}
-            alt='avatar'
-          />
           <a
             className='font-bold text-gray-700 cursor-pointer dark:text-gray-200'
             tabIndex='0'
             role='link'
           >
-            {items.last_name}
+            ${items.unitPrice}
           </a>
         </div>
       </div>

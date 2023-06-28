@@ -8,11 +8,7 @@ const ProviderSession = ({ children, session }) => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <SessionProvider session={session}>
-          <div className='w-screen h-screen flex justify-center items-center'>
-            {children}
-          </div>
-        </SessionProvider>
+        <SessionProvider session={session}>{children}</SessionProvider>
       </PersistGate>
     </Provider>
   );

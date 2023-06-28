@@ -1,4 +1,8 @@
-import Login from '../components/Login';
+import Cta from '../components/Cta';
 export default async function Page() {
-  return <Login />;
+  return (
+    <div className='w-screen h-screen flex justify-center items-center'>
+      <Cta />
+    </div>
+  );
 }
