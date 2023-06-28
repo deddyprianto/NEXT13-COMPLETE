@@ -101,7 +101,7 @@ export default function MyModal() {
                 leaveFrom='opacity-100 scale-100'
                 leaveTo='opacity-0 scale-95'
               >
-                <Dialog.Panel className='w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all'>
+                <Dialog.Panel className='w-full max-w-md transhtmlForm overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all'>
                   <Dialog.Title
                     as='h3'
                     className='text-lg font-medium leading-6 text-gray-900'
@@ -111,8 +111,8 @@ export default function MyModal() {
                   <div className='mt-2'>
                     <div>
                       <label
-                        for='username'
-                        class='block text-sm text-gray-500 dark:text-gray-300'
+                        htmlFor='username'
+                        className='block text-sm text-gray-500 dark:text-gray-300'
                       >
                         Username
                       </label>
@@ -121,14 +121,14 @@ export default function MyModal() {
                         ref={userNameRef}
                         type='text'
                         placeholder='John Doe'
-                        class='block  mt-2 w-full placeholder-gray-400/70 dark:placeholder-gray-500 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300'
+                        className='block  mt-2 w-full placeholder-gray-400/70 dark:placeholder-gray-500 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300'
                       />
                     </div>
 
                     <div>
                       <label
-                        for='username'
-                        class='block text-sm text-gray-500 dark:text-gray-300'
+                        htmlFor='username'
+                        className='block text-sm text-gray-500 dark:text-gray-300'
                       >
                         Job Title
                       </label>
@@ -137,14 +137,14 @@ export default function MyModal() {
                         ref={jobTitleRef}
                         type='text'
                         placeholder='Leader etc'
-                        class='block  mt-2 w-full placeholder-gray-400/70 dark:placeholder-gray-500 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300'
+                        className='block  mt-2 w-full placeholder-gray-400/70 dark:placeholder-gray-500 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300'
                       />
                     </div>
 
                     <div>
                       <label
-                        for='username'
-                        class='block text-sm text-gray-500 dark:text-gray-300'
+                        htmlFor='username'
+                        className='block text-sm text-gray-500 dark:text-gray-300'
                       >
                         ID
                       </label>
@@ -153,7 +153,7 @@ export default function MyModal() {
                         ref={descriptionRef}
                         type='text'
                         placeholder='Leader etc'
-                        class='block  mt-2 w-full placeholder-gray-400/70 dark:placeholder-gray-500 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300'
+                        className='block  mt-2 w-full placeholder-gray-400/70 dark:placeholder-gray-500 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300'
                       />
                     </div>
                   </div>
