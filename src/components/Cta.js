@@ -1,5 +1,4 @@
 'use client';
-import { signIn } from 'next-auth/react';
 
 export default function Page() {
   return (
@@ -17,7 +16,7 @@ export default function Page() {
           adipisci iusto!
         </p>
 
-        <div onClick={signIn} className='inline-flex w-full mt-6 sm:w-auto'>
+        <div className='inline-flex w-full mt-6 sm:w-auto'>
           <div className='inline-flex items-center justify-center w-full px-6 py-2 text-white duration-300 bg-blue-600 rounded-lg hover:bg-blue-500 focus:ring focus:ring-blue-300 focus:ring-opacity-80'>
             Sign In
           </div>
