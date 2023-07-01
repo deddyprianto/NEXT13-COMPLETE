@@ -1,8 +1,12 @@
-import Cta from '../components/Cta';
+import Card from '@/components/Card';
 export default async function Page() {
   return (
-    <div className='w-screen h-screen flex justify-center items-center'>
-      <Cta />
+    <div className='h-full w-full overflow-y-auto'>
+      <Card />
+      <Card />
+      <Card />
+      <Card />
+      <Card />
     </div>
   );
 }

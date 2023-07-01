@@ -1,48 +1,44 @@
 export default function Card({ items }) {
   return (
-    <div className='max-w-2xl px-8 py-4 bg-white rounded-lg shadow-2xl'>
-      <div className='flex items-center justify-between'>
-        <span className='text-sm font-light bg-green-400 rounded-xl text-white p-3'>
-          {items.id}
+    <div class='max-w-2xl px-8 py-4 bg-white rounded-lg shadow-md dark:bg-gray-800'>
+      <div class='flex items-center justify-between'>
+        <span class='text-sm font-light text-gray-600 dark:text-gray-400'>
+          Mar 10, 2019
         </span>
         <a
-          className='px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-300 transform bg-gray-600 rounded cursor-pointer hover:bg-gray-500'
-          tabIndex='0'
+          class='px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-300 transform bg-gray-600 rounded cursor-pointer hover:bg-gray-500'
+          tabindex='0'
           role='button'
         >
-          UPDATE
+          SGD 10
         </a>
       </div>
 
-      <div className='mt-2'>
+      <div class='mt-2'>
         <a
           href='#'
-          className='text-xl font-bold text-gray-700 dark:text-white hover:text-gray-600 dark:hover:text-gray-200 hover:underline'
-          tabIndex='0'
+          class='text-xl font-bold text-gray-700 dark:text-white hover:text-gray-600 dark:hover:text-gray-200 hover:underline'
+          tabindex='0'
           role='link'
         >
-          {items.product.name}
+          lol
         </a>
-        <p className='mt-2 text-gray-600 dark:text-gray-300'>{items.body}</p>
+        <p class='mt-2 text-gray-600 dark:text-gray-300'>
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempora
+          expedita dicta totam aspernatur doloremque. Excepturi iste iusto eos
+          enim reprehenderit nisi, accusamus delectus nihil quis facere in modi
+          ratione libero!
+        </p>
       </div>
 
-      <div className='flex items-center justify-between mt-4'>
-        <a
-          href='#'
-          className='text-blue-600 dark:text-blue-400 hover:underline'
-          tabIndex='0'
-          role='link'
-        >
-          DELETE
-        </a>
-
-        <div className='flex items-center'>
+      <div class='flex items-center justify-between mt-4'>
+        <div class='flex items-center'>
           <a
-            className='font-bold text-gray-700 cursor-pointer dark:text-gray-200'
-            tabIndex='0'
+            class='font-bold text-gray-700 cursor-pointer dark:text-gray-200'
+            tabindex='0'
             role='link'
           >
-            ${items.unitPrice}
+            Ordering Statue: MOAD
           </a>
         </div>
       </div>
