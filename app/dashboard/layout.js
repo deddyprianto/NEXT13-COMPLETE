@@ -1,6 +1,6 @@
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
-import Sidebar from '@/components/Sidebar';
+import Sidebar from '../../components/Sidebar';
 const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ['latin'] });
 
 export default function RootLayout({ children }) {
