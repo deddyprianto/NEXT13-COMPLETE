@@ -22,10 +22,10 @@ export default function Card({ items }) {
         <div class='px-4 py-2 -mx-3'>
           <div class='mx-3'>
             <span class='font-semibold text-emerald-500 dark:text-emerald-400'>
-              {itemData.name}
+              {itemData.product.name}
             </span>
             <p class='text-sm text-gray-600 dark:text-gray-200'>
-              {itemData.address}
+              SGD {itemData.product.retailPrice}
             </p>
           </div>
         </div>
@@ -50,7 +50,7 @@ export default function Card({ items }) {
           Add Family
         </button>
       </div>
-      {items.map((itemData) => (
+      {items.details.map((itemData) => (
         <CartItem itemData={itemData} key={itemData.name} />
       ))}
       {isOpen && <Modal isOpen={isOpen} setIsOpen={setIsOpen} />}
