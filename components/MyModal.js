@@ -4,10 +4,8 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setDataUser } from '../store/dataSlice';
-import { useSession } from 'next-auth/react';
 
 export default function MyModal() {
-  const session = useSession();
   const dispatch = useDispatch();
   const userNameRef = useRef();
   const jobTitleRef = useRef();
@@ -35,7 +33,6 @@ export default function MyModal() {
       payload,
       {
         headers: {
-          Authorization: `Bearer ${session.data.user.accessToken}`,
           'Content-Type': 'application/json',
         },
       }
