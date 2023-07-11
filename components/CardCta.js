@@ -13,7 +13,7 @@ export default function CardCta({ items }) {
         </div>
 
         <h2 class='mt-2 text-xl font-semibold text-gray-800 dark:text-white md:mt-0'>
-          {itemData.name}
+          {itemData?.name}
         </h2>
 
         <p class='mt-2 text-sm text-gray-600 dark:text-gray-200'>
@@ -36,10 +36,10 @@ export default function CardCta({ items }) {
     );
   };
   return (
-    <div className='bg-red-50 p-5'>
+    <div className='p-5'>
       <MyModal />
-      {items.map((item) => (
-        <ListCard itemData={item} key={item.id} />
+      {items?.map((item) => (
+        <ListCard itemData={item} key={item?.id} />
       ))}
     </div>
   );

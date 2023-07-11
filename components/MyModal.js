@@ -1,14 +1,10 @@
 import { Dialog, Transition } from '@headlessui/react';
 import React, { Fragment, useState, useRef } from 'react';
-import toast from 'react-hot-toast';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { setDataUser } from '../store/dataSlice';
 import { useSWRConfig } from 'swr';
 
 export default function MyModal() {
   const { mutate } = useSWRConfig();
-  const dispatch = useDispatch();
   const name = useRef();
   const address = useRef();
   let [isOpen, setIsOpen] = useState(false);
@@ -18,17 +14,11 @@ export default function MyModal() {
   }
 
   function openModal() {
-    dispatch(setDataUser('lol'));
     setIsOpen(true);
   }
 
-  const saveData = () => {
-    const payload = {
-      name: name.current.value,
-      address: address.current.value,
-    };
-
-    const dataPromis = axios.post(
+  const updateData = async (payload) => {
+    await axios.post(
       'https://64a7ca17dca581464b84c889.mockapi.io/students/family',
       payload,
       {
@@ -37,31 +27,29 @@ export default function MyModal() {
         },
       }
     );
+  };
 
-    toast.promise(
-      dataPromis,
+  const saveData = async () => {
+    closeModal();
+    const payload = {
+      name: name.current.value,
+      address: address.current.value,
+    };
+    mutate(
+      'https://64a7ca17dca581464b84c889.mockapi.io/students/family',
+      updateData(payload),
       {
-        loading: 'Loading',
-        success: (data) => {
-          mutate('https://64a7ca17dca581464b84c889.mockapi.io/students/family');
-          setIsOpen(false);
-          return `Successfully saved ${data?.data?.name}`;
+        optimisticData: (user) => [...user, payload],
+        rollbackOnError(error) {
+          // If it's timeout abort error, don't rollback
+          return error.name !== 'AbortError';
         },
-        error: (err) => {
-          console.log(err);
-          setIsOpen(false);
-          return `This just happened: ${err.message}`;
+        populateCache: (updatedTodo, todos) => {
+          // filter the list, and return it with the updated item
+          const filteredTodos = todos.filter((todo) => todo.id !== '1');
+          return [...filteredTodos, updatedTodo];
         },
-      },
-      {
-        style: {
-          minWidth: '250px',
-          filter: 'drop-shadow(0 25px 25px rgb(0 0 0 / 0.15))',
-        },
-        success: {
-          duration: 5000,
-          icon: '🔥',
-        },
+        revalidate: false,
       }
     );
   };
@@ -147,7 +135,7 @@ export default function MyModal() {
                       className='inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2'
                       onClick={saveData}
                     >
-                      Got it, thanks!
+                      Save
                     </button>
                   </div>
                 </Dialog.Panel>
