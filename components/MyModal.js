@@ -4,12 +4,13 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setDataUser } from '../store/dataSlice';
+import { useSWRConfig } from 'swr';
 
 export default function MyModal() {
+  const { mutate } = useSWRConfig();
   const dispatch = useDispatch();
-  const userNameRef = useRef();
-  const jobTitleRef = useRef();
-  const descriptionRef = useRef();
+  const name = useRef();
+  const address = useRef();
   let [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {
@@ -23,13 +24,12 @@ export default function MyModal() {
 
   const saveData = () => {
     const payload = {
-      title: userNameRef.current.value,
-      body: jobTitleRef.current.value,
-      description: descriptionRef.current.value,
-      published: false,
+      name: name.current.value,
+      address: address.current.value,
     };
+
     const dataPromis = axios.post(
-      'https://my-backend-infra.mhaidarhanif.com/api/articles',
+      'https://64a7ca17dca581464b84c889.mockapi.io/students/family',
       payload,
       {
         headers: {
@@ -37,12 +37,13 @@ export default function MyModal() {
         },
       }
     );
+
     toast.promise(
       dataPromis,
       {
         loading: 'Loading',
         success: (data) => {
-          console.log(data);
+          mutate('https://64a7ca17dca581464b84c889.mockapi.io/students/family');
           setIsOpen(false);
           return `Successfully saved ${data?.data?.name}`;
         },
@@ -112,11 +113,11 @@ export default function MyModal() {
                         htmlFor='username'
                         className='block text-sm text-gray-500 dark:text-gray-300'
                       >
-                        Username
+                        Name
                       </label>
 
                       <input
-                        ref={userNameRef}
+                        ref={name}
                         type='text'
                         placeholder='John Doe'
                         className='block  mt-2 w-full placeholder-gray-400/70 dark:placeholder-gray-500 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300'
@@ -128,27 +129,11 @@ export default function MyModal() {
                         htmlFor='username'
                         className='block text-sm text-gray-500 dark:text-gray-300'
                       >
-                        Job Title
+                        Address
                       </label>
 
                       <input
-                        ref={jobTitleRef}
-                        type='text'
-                        placeholder='Leader etc'
-                        className='block  mt-2 w-full placeholder-gray-400/70 dark:placeholder-gray-500 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300'
-                      />
-                    </div>
-
-                    <div>
-                      <label
-                        htmlFor='username'
-                        className='block text-sm text-gray-500 dark:text-gray-300'
-                      >
-                        ID
-                      </label>
-
-                      <input
-                        ref={descriptionRef}
+                        ref={address}
                         type='text'
                         placeholder='Leader etc'
                         className='block  mt-2 w-full placeholder-gray-400/70 dark:placeholder-gray-500 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300'
