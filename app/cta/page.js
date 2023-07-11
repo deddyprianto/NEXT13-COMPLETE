@@ -1,5 +1,9 @@
 import Cta from '@/components/Cta';
 
 export default function Page() {
-  return <Cta />;
+  return (
+    <div className='h-full overflow-auto'>
+      <Cta />
+    </div>
+  );
 }
