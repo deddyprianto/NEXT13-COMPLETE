@@ -3,7 +3,7 @@ import React, { Fragment, useState, useRef } from 'react';
 import axios from 'axios';
 import { useSWRConfig } from 'swr';
 
-export default function MyModal({ isOpen, setIsOpen }) {
+export default function Popup() {
   const { mutate } = useSWRConfig();
   const name = useRef();
   const address = useRef();

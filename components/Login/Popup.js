@@ -1,15 +1,18 @@
+'use client';
 import { Dialog, Transition } from '@headlessui/react';
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import InputLogin from './Input';
 
-export default function Modal({ setIsOpen, isOpen }) {
-  function closeModal() {
-    setIsOpen(false);
-  }
+export default function Popup() {
+  const [isOpen, setIsOpen] = useState(true);
   return (
     <Fragment>
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as='div' className='relative z-10' onClose={closeModal}>
+        <Dialog
+          as='div'
+          className='relative z-10'
+          onClose={() => setIsOpen(false)}
+        >
           <Transition.Child
             as={Fragment}
             enter='ease-out duration-300'

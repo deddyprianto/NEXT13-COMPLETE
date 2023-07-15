@@ -1,18 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  accessToken: '',
+  phoneCode: '',
 };
 
 const dataSlice = createSlice({
   name: 'dataSlice',
   initialState,
   reducers: {
-    setDataUser: (state, action) => {
-      state.accessToken = action.payload;
+    setPhoneCode: (state, action) => {
+      state.phoneCode = action.payload;
     },
   },
 });
 
-export const { setDataUser } = dataSlice.actions;
+export const { setPhoneCode } = dataSlice.actions;
 export default dataSlice.reducer;

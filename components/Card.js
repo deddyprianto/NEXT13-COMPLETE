@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import Modal from './Login/Modal';
+import Modal from './Login/Popup';
 
 export default function Card({ items }) {
   console.log(items);
