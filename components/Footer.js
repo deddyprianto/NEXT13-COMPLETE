@@ -1,13 +1,15 @@
 'use client';
-import React from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import {
   DocumentDuplicateIcon,
   InboxIcon,
   ArrowRightOnRectangleIcon,
 } from '@heroicons/react/24/solid';
+import Modal from './Login/Modal';
 
 export default function Footer() {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div className='w-full flex justify-evenly items-center bg-gray-200'>
       <Link href='/' className='flex justify-center items-center flex-col'>
@@ -18,10 +20,14 @@ export default function Footer() {
         <InboxIcon className='h-6 w-6' />
         <p>TrackOrder</p>
       </Link>
-      <Link href='/das' className='flex justify-center items-center flex-col'>
+      <div
+        onClick={() => setIsOpen(true)}
+        className='flex justify-center items-center flex-col cursor-pointer'
+      >
         <ArrowRightOnRectangleIcon className='h-6 w-6' />
         <p>Login</p>
-      </Link>
+      </div>
+      <Modal isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 }

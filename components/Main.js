@@ -1,5 +1,5 @@
 'use client';
-import MyModal from './MyModal';
+import MyModal from './Cta/MyModal';
 // import { useSelector } from 'react-redux';
 // import { signIn, signOut, useSession } from 'next-auth/react';
 import Card from './Card';
