@@ -1,10 +1,10 @@
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import SearchInput from 'react-search-input';
 import { valuePhoneNumber } from '@/helper/myfn';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
-import { setPhoneCode } from '@/store/dataSlice';
+import { setDropDownPhoneCode } from '@/store/dataSlice';
 
 export default function DropDownLogin() {
   const dispatch = useDispatch();
@@ -14,7 +14,11 @@ export default function DropDownLogin() {
   return (
     <div>
       <Dropdown
-        onChange={(e) => dispatch(setPhoneCode(e))}
+        onChange={(e) => {
+          const phoneNumberString = e.value;
+          const phoneNumberCode = '+' + phoneNumberString.match(/\+(\d+)/)[1];
+          dispatch(setDropDownPhoneCode(phoneNumberCode));
+        }}
         menuClassName='bg-black'
         options={valuePhoneNumber(phoneCountryCode, valueSearchCode)}
         value={phoneCountryCode}

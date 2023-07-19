@@ -1,7 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  phoneCode: '',
+  dropDownPhoneCode: '+65',
+  phoneNumberIsValid: false,
+  dataPhoneNumber: {},
+  loading: false,
 };
 
 const dataSlice = createSlice({
@@ -9,10 +12,24 @@ const dataSlice = createSlice({
   initialState,
   reducers: {
     setPhoneCode: (state, action) => {
-      state.phoneCode = action.payload;
+      state.phoneNumberIsValid = action.payload;
+    },
+    setIsLoading: (state, action) => {
+      state.loading = action.payload;
+    },
+    setDataPhoneNumber: (state, action) => {
+      state.dataPhoneNumber = action.payload;
+    },
+    setDropDownPhoneCode: (state, action) => {
+      state.dropDownPhoneCode = action.payload;
     },
   },
 });
 
-export const { setPhoneCode } = dataSlice.actions;
+export const {
+  setPhoneCode,
+  setIsLoading,
+  setDataPhoneNumber,
+  setDropDownPhoneCode,
+} = dataSlice.actions;
 export default dataSlice.reducer;

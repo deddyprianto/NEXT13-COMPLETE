@@ -17,7 +17,7 @@ export const valuePhoneNumber = (phoneCountryCode, valueSearchCode) => {
   const optionCodePhone = Object.keys(myCountryCodesObject).map(
     (key) => myCountryCodesObject[key]
   );
-  console.log(optionCodePhone);
+
 
   optionCodePhone.sort((a, b) => {
     let item = a.substring(a.indexOf(':') + 2);
@@ -27,6 +27,7 @@ export const valuePhoneNumber = (phoneCountryCode, valueSearchCode) => {
       return 1;
     }
   });
-
-  return optionCodePhone.filter(createFilter(valueSearchCode));
+  
+ const data = optionCodePhone.filter(createFilter(valueSearchCode));
+ return data.map((str) => str.match(/\+(\d+)/)[0]);
 };

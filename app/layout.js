@@ -17,11 +17,13 @@ export default function RootLayout({ children }) {
             className: 'font-popins',
           }}
         />
-        <div className='w-screen h-screen grid grid-rows-15'>
-          <Header />
-          <ProviderSession>{children}</ProviderSession>
-          <Footer />
-        </div>
+        <ProviderSession>
+          <div className='w-screen h-screen grid grid-rows-15'>
+            <Header />
+            {children}
+            <Footer />
+          </div>
+        </ProviderSession>
       </body>
     </html>
   );

@@ -1,10 +1,60 @@
 'use client';
-import { Dialog, Transition } from '@headlessui/react';
 import React, { Fragment, useState } from 'react';
-import InputLogin from './Input';
+import { useSelector } from 'react-redux';
+import { Dialog, Transition } from '@headlessui/react';
+import Otp from './Otp';
+import InputLogin from './InputLogin';
+
+const RenderAuthComponent = ({ isPhoneNumberPassed, dataPhoneNumber }) => {
+  if (isPhoneNumberPassed) {
+    return (
+      <>
+        <Dialog.Title
+          as='h3'
+          className='text-lg font-medium leading-6 text-gray-900 text-center'
+        >
+          Mobile Sign In{' '}
+        </Dialog.Title>
+        <Dialog.Title
+          as='h3'
+          className='text-sm font-medium leading-6 text-gray-900 mt-6'
+        >
+          Sign in to {dataPhoneNumber?.phoneNumber}
+        </Dialog.Title>
+        <Otp />
+      </>
+    );
+  } else {
+    return (
+      <>
+        <Dialog.Title
+          as='h3'
+          className='text-lg font-medium leading-6 text-gray-900'
+        >
+          Welcome !
+        </Dialog.Title>
+        <Dialog.Title
+          as='h3'
+          className='text-sm font-medium leading-6 text-gray-900 mt-3'
+        >
+          To Login or Register, please enter your Phone number.
+        </Dialog.Title>
+        <InputLogin />
+      </>
+    );
+  }
+};
 
 export default function Popup() {
+  const isPhoneNumberPassed = useSelector(
+    (state) => state.dataUser.phoneNumberIsValid
+  );
+  const dataPhoneNumber = useSelector(
+    (state) => state.dataUser.dataPhoneNumber
+  );
+
   const [isOpen, setIsOpen] = useState(true);
+
   return (
     <Fragment>
       <Transition appear show={isOpen} as={Fragment}>
@@ -37,19 +87,10 @@ export default function Popup() {
                 leaveTo='opacity-0 scale-95'
               >
                 <Dialog.Panel className='w-full max-w-md transhtmlForm overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all'>
-                  <Dialog.Title
-                    as='h3'
-                    className='text-lg font-medium leading-6 text-gray-900'
-                  >
-                    Welcome !
-                  </Dialog.Title>
-                  <Dialog.Title
-                    as='h3'
-                    className='text-sm font-medium leading-6 text-gray-900 mt-3'
-                  >
-                    To Login or Register, please enter your Phone number.
-                  </Dialog.Title>
-                  <InputLogin />
+                  <RenderAuthComponent
+                    dataPhoneNumber={dataPhoneNumber}
+                    isPhoneNumberPassed={isPhoneNumberPassed}
+                  />
                 </Dialog.Panel>
               </Transition.Child>
             </div>
