@@ -4,11 +4,14 @@ import { toast } from 'react-hot-toast';
 import { useSelector, useDispatch } from 'react-redux';
 import ButtonLogin from './ButtonLogin';
 import { setAccessToken, setIsLogin } from '@/store/dataPersistedSlice';
+import { useRouter } from 'next/navigation';
 
 export default function Otp() {
+  const router = useRouter();
   const dispatch = useDispatch();
   const phoneData = useSelector((state) => state.dataUser.dataPhoneNumber);
   const otpRef = useRef();
+
   const handleOtp = () => {
     const payload = {
       codeOTP: otpRef.current.value,
@@ -31,6 +34,7 @@ export default function Otp() {
           if (data.message) {
             dispatch(setIsLogin(true));
             dispatch(setAccessToken(data?.data?.accessToken.token));
+            router.push('/');
           }
           return `${data?.message}`;
         },
@@ -50,6 +54,7 @@ export default function Otp() {
       }
     );
   };
+
   return (
     <div className='mt-5'>
       <form>

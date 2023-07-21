@@ -2,8 +2,11 @@
 import Link from 'next/link';
 import {
   DocumentDuplicateIcon,
-  InboxIcon,
+  ClockIcon,
   ArrowRightOnRectangleIcon,
+  UserCircleIcon,
+  EnvelopeIcon,
+  InboxIcon,
 } from '@heroicons/react/24/solid';
 import { useSelector } from 'react-redux';
 
@@ -16,18 +19,18 @@ const RenderRootComponents = ({ isLogin }) => {
           <p>Menu</p>
         </Link>
         <Link href='/cta' className='flex justify-center items-center flex-col'>
-          <InboxIcon className='h-6 w-6' />
+          <ClockIcon className='h-6 w-6' />
           <p>History</p>
         </Link>
         <Link href='/cta' className='flex justify-center items-center flex-col'>
-          <InboxIcon className='h-6 w-6' />
+          <EnvelopeIcon className='h-6 w-6' />
           <p>Inbox</p>
         </Link>
         <Link
           href='/login'
           className='flex justify-center items-center flex-col'
         >
-          <ArrowRightOnRectangleIcon className='h-6 w-6' />
+          <UserCircleIcon className='h-6 w-6' />
           <p>Profile</p>
         </Link>
       </div>

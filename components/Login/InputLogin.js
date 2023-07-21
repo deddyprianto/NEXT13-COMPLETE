@@ -11,20 +11,7 @@ export default function InputLogin() {
   const dispatch = useDispatch();
   const phoneNumberRef = useRef();
 
-  const handleCheckAccount = async () => {
-    const payload = {
-      phoneNumber: `${phoneCode}${phoneNumberRef.current.value}`,
-    };
-    const response = axios.post(
-      'https://api-ximenjie.proseller-demo.com/crm/api/customer/login/check-account',
-      payload,
-      {
-        headers: {
-          'Content-type': 'application/json',
-        },
-      }
-    );
-
+  const handleOtpSender = async () => {
     const payloadOTPSender = {
       phoneNumber: `${phoneCode}${phoneNumberRef.current.value}`,
       sendBy: 'SMSOTP',
@@ -39,12 +26,28 @@ export default function InputLogin() {
         },
       }
     );
-
+  };
+  const handleCheckAccount = () => {
+    const payload = {
+      phoneNumber: `${phoneCode}${phoneNumberRef.current.value}`,
+    };
+    const response = axios.post(
+      'https://api-ximenjie.proseller-demo.com/crm/api/customer/login/check-account',
+      payload,
+      {
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
     toast.promise(
       response,
       {
         loading: 'Loading',
         success: ({ data }) => {
+          if (data.status) {
+            handleOtpSender();
+          }
           dispatch(setDataPhoneNumber(data?.data?.data));
           dispatch(setPhoneCode(data?.data?.status));
           return `${data?.message}`;
