@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import axios from 'axios';
 import { serialize } from 'cookie';
+import { COOKIE_NAME } from '@/constant';
 
 const MAX_AGE = 60 * 60 * 24 * 30;
 export async function POST(request) {
@@ -29,7 +30,7 @@ export async function POST(request) {
     }
   );
   const token = data.data.accessToken.token;
-  const seralized = serialize('mytoken', token, {
+  const seralized = serialize(COOKIE_NAME, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict',
