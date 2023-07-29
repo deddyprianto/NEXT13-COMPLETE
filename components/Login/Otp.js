@@ -30,10 +30,15 @@ export default function Otp() {
       response,
       {
         loading: 'Loading',
-        success: ({ data }) => {
+        success: async ({ data }) => {
           if (data.message) {
             dispatch(setIsLogin(true));
             dispatch(setAccessToken(data?.data?.accessToken.token));
+            await axios.get('/api/otp', {
+              headers: {
+                Authorization: `Bearer ${data?.data?.accessToken.token}`,
+              },
+            });
             router.push('/');
           }
           return `${data?.message}`;

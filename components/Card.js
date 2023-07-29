@@ -50,7 +50,7 @@ export default function Card({ items }) {
           Add Family
         </button>
       </div>
-      {items.details.map((itemData) => (
+      {items?.details?.map((itemData) => (
         <CartItem itemData={itemData} key={itemData.name} />
       ))}
       {isOpen && <Modal isOpen={isOpen} setIsOpen={setIsOpen} />}
