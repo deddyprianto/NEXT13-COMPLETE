@@ -1,10 +1,8 @@
 import { NextResponse } from 'next/server';
+import { headers } from 'next/headers';
 
-export async function GET(request) {
-  // const token = request.headers.authorization;
-  console.log('malam', request);
-  const res = await fetch('https://jsonplaceholder.typicode.com/posts');
-  const data = await res.json();
-
-  return NextResponse.json({ data });
+export async function GET() {
+  const headersList = headers();
+  const token = headersList.get('Authorization');
+  return NextResponse.json({ data: 'authorization' });
 }
