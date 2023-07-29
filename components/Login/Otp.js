@@ -17,28 +17,20 @@ export default function Otp() {
       codeOTP: otpRef.current.value,
       phoneNumber: phoneData.phoneNumber,
     };
-    const response = axios.post(
-      'https://api-ximenjie.proseller-demo.com/crm/api/customer/login',
-      payload,
-      {
-        headers: {
-          'Content-type': 'application/json',
-        },
-      }
-    );
+    const response = axios.post('/api/otp', payload, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
     toast.promise(
       response,
       {
         loading: 'Loading',
         success: async ({ data }) => {
           if (data.message) {
-            dispatch(setIsLogin(true));
-            dispatch(setAccessToken(data?.data?.accessToken.token));
-            await axios.get('/api/otp', {
-              headers: {
-                Authorization: `Bearer ${data?.data?.accessToken.token}`,
-              },
-            });
+            // dispatch(setIsLogin(true));
+            // dispatch(setAccessToken(data?.data?.accessToken.token));
+            // await axios.post('/api/otp', payload);
             router.push('/');
           }
           return `${data?.message}`;

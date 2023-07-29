@@ -2,7 +2,7 @@ import Card from '@/components/Card';
 
 export default function Page() {
   // const res = await fetch(
-  //   'https://api-chickyfun.proseller-demo.com/ordering/api/cart/getcart',
+  //   'https://api-ximenjie.proseller-demo.com/ordering/api/cart/getcart',
   //   {
   //     next: {
   //       revalidate: 10,
