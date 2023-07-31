@@ -1,9 +1,11 @@
 'use client';
 import React, { useState } from 'react';
 import Modal from './Login/Popup';
+import { useFetchOutlets } from '@/hooks/useFetchOutlets';
 
-export default function Card({ items }) {
-  console.log(items);
+export default function Card() {
+  const { data, isError, isLoading } = useFetchOutlets();
+  console.log('dedd', data);
   const [isOpen, setIsOpen] = useState(false);
 
   const CartItem = ({ itemData }) => {
@@ -50,9 +52,9 @@ export default function Card({ items }) {
           Add Family
         </button>
       </div>
-      {items?.details?.map((itemData) => (
+      {/* {items?.details?.map((itemData) => (
         <CartItem itemData={itemData} key={itemData.name} />
-      ))}
+      ))} */}
       {isOpen && <Modal isOpen={isOpen} setIsOpen={setIsOpen} />}
     </React.Fragment>
   );
