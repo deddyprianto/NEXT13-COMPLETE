@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import { toast } from 'react-hot-toast';
 import { useSelector, useDispatch } from 'react-redux';
 import ButtonLogin from './ButtonLogin';
-import { setAccessToken, setIsLogin } from '@/store/dataPersistedSlice';
+import { setIsLogin } from '@/store/dataPersistedSlice';
 import { useRouter } from 'next/navigation';
 
 export default function Otp() {
@@ -28,7 +28,7 @@ export default function Otp() {
         loading: 'Loading',
         success: async ({ data }) => {
           if (data.message) {
-            // dispatch(setIsLogin(true));
+            dispatch(setIsLogin(true));
             // dispatch(setAccessToken(data?.data?.accessToken.token));
             // await axios.post('/api/otp', payload);
             router.push('/');

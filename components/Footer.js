@@ -2,15 +2,18 @@
 import Link from 'next/link';
 import {
   DocumentDuplicateIcon,
-  ClockIcon,
-  ArrowRightOnRectangleIcon,
+  ArrowLeftOnRectangleIcon,
   UserCircleIcon,
   EnvelopeIcon,
   InboxIcon,
+  ClockIcon,
 } from '@heroicons/react/24/solid';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { setDataPhoneNumber, setPhoneCode } from '@/store/dataSlice';
 
-const RenderRootComponents = ({ isLogin }) => {
+const RenderRootComponents = ({ isLogin, handleLogout }) => {
   if (isLogin) {
     return (
       <div className='w-full flex justify-evenly items-center bg-gray-200'>
@@ -26,13 +29,13 @@ const RenderRootComponents = ({ isLogin }) => {
           <EnvelopeIcon className='h-6 w-6' />
           <p>Inbox</p>
         </Link>
-        <Link
-          href='/login'
+        <div
+          onClick={handleLogout}
           className='flex justify-center items-center flex-col'
         >
           <UserCircleIcon className='h-6 w-6' />
-          <p>Profile</p>
-        </Link>
+          <p>LogOut</p>
+        </div>
       </div>
     );
   } else {
@@ -50,7 +53,7 @@ const RenderRootComponents = ({ isLogin }) => {
           href='/login'
           className='flex justify-center items-center flex-col'
         >
-          <ArrowRightOnRectangleIcon className='h-6 w-6' />
+          <ArrowLeftOnRectangleIcon className='h-6 w-6' />
           <p>Login</p>
         </Link>
       </div>
@@ -58,6 +61,18 @@ const RenderRootComponents = ({ isLogin }) => {
   }
 };
 export default function Footer() {
+  const router = useRouter();
+  const dispatch = useDispatch();
   const isLogin = useSelector((state) => state.dataPersist.isLogin);
-  return <RenderRootComponents isLogin={isLogin} />;
+  const handleLogout = async () => {
+    try {
+      await axios.get('/api/logout');
+      dispatch(setPhoneCode(false));
+      dispatch(setDataPhoneNumber({}));
+      router.push('/login');
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  return <RenderRootComponents isLogin={isLogin} handleLogout={handleLogout} />;
 }

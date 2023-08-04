@@ -18,10 +18,10 @@ export async function GET() {
     );
   }
 
-  const { value } = token;
+  // const { value } = token;
 
   // Always check this
-  const secret = process.env.JWT_SECRET || '';
+  // const secret = process.env.JWT_SECRET || '';
 
   try {
     const response = {

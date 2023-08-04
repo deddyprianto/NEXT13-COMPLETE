@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import SearchInput from 'react-search-input';
+// import SearchInput from 'react-search-input';
 import { valuePhoneNumber } from '@/helper/myfn';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
@@ -8,8 +8,8 @@ import { setDropDownPhoneCode } from '@/store/dataSlice';
 
 export default function DropDownLogin() {
   const dispatch = useDispatch();
-  const [valueSearchCode, setValueSearchCode] = useState('');
-  const [phoneCountryCode, setPhoneCountryCode] = useState('+65');
+  const [valueSearchCode] = useState('');
+  const [phoneCountryCode] = useState('+65');
 
   return (
     <div>
