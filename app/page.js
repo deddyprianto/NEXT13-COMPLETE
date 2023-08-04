@@ -14,41 +14,9 @@ async function getData() {
       },
     }
   );
-  const resPromoBanner = await fetch(
-    'https://api-ximenjie.proseller-demo.com/masterdata/api/promobanners/load',
-    {
-      headers: {
-        Authorization: `Bearer ${myToken?.value}`,
-        'Content-Type': 'application/json',
-      },
-    }
-  );
-  const data1 = resLoadCategory.json();
-  const data2 = resPromoBanner.json();
-  return {
-    data1,
-    data2,
-  };
+
+  return resLoadCategory.json();
 }
-
-// async function getDataPromoBannerImage() {
-//   const cookieStore = cookies();
-//   const myToken = cookieStore.get(COOKIE_NAME);
-//   const res = await fetch(
-//     'https://api-ximenjie.proseller-demo.com/masterdata/api/promobanners/load',
-//     {
-//       headers: {
-//         Authorization: `Bearer ${myToken?.value}`,
-//         'Content-Type': 'application/json',
-//       },
-//     }
-//   );
-//   if (!res.ok) {
-//     throw new Error('Failed to fetch data');
-//   }
-
-//   return res.json();
-// }
 
 export default async function Page() {
   // 3 data fetching in Nextj13
@@ -56,10 +24,9 @@ export default async function Page() {
   // STATIC SIDE GENERATION SSG (default is cache)
   // INCREMENTAL STATIC  GENERATION ISR (can use both SSR/SSG)
   const data = await getData();
-  console.log(data);
   return (
     <div className='h-full w-full overflow-y-auto p-3'>
-      {/* <Home dataTabModifier={data.data} /> */}
+      <Home data={data.data} />
     </div>
   );
 }

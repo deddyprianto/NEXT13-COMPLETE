@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-export const useFetchOutlets = () => {
+export const useFetchDataClient = (endpoint) => {
   const configuration = {
     headers: {
       'Content-Type': 'application/json',
@@ -7,7 +7,7 @@ export const useFetchOutlets = () => {
     method: 'POST',
   };
   const { data, isLoading, error } = useSWR(
-    `https://ordering-ximenjie.proseller-demo.com/masterdata/api/outlets/load`,
+    `https://ordering-ximenjie.proseller-demo.com/masterdata/api/${endpoint}`,
     (url) => fetch(url, configuration).then((res) => res.data),
     {
       errorRetryInterval: 300000,
