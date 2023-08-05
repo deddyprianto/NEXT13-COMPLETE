@@ -16,45 +16,49 @@ import { setDataPhoneNumber, setPhoneCode } from '@/store/dataSlice';
 const RenderRootComponents = ({ isLogin, handleLogout }) => {
   if (isLogin) {
     return (
-      <div className='w-full flex justify-evenly items-center bg-gray-200'>
+      <div className='w-full flex justify-evenly items-center bg-[#008AC9] text-[#ffffff]'>
         <Link href='/' className='flex justify-center items-center flex-col'>
-          <DocumentDuplicateIcon className='h-6 w-6' />
-          <p>Menu</p>
+          <DocumentDuplicateIcon className='h-5 w-5' />
+          <p style={{ fontSize: '14px' }}>Menu</p>
         </Link>
         <Link href='/cta' className='flex justify-center items-center flex-col'>
-          <ClockIcon className='h-6 w-6' />
-          <p>History</p>
+          <ClockIcon className='h-5 w-5' />
+          <p style={{ fontSize: '14px' }}>History</p>
         </Link>
         <Link href='/cta' className='flex justify-center items-center flex-col'>
-          <EnvelopeIcon className='h-6 w-6' />
-          <p>Inbox</p>
+          <EnvelopeIcon className='h-5 w-5' />
+          <p style={{ fontSize: '14px' }}>Inbox</p>
+        </Link>
+        <Link href='/cta' className='flex justify-center items-center flex-col'>
+          <EnvelopeIcon className='h-5 w-5' />
+          <p style={{ fontSize: '14px' }}>Inbox</p>
         </Link>
         <div
           onClick={handleLogout}
           className='flex justify-center items-center flex-col'
         >
-          <UserCircleIcon className='h-6 w-6' />
-          <p>LogOut</p>
+          <UserCircleIcon className='h-5 w-5' />
+          <p style={{ fontSize: '14px' }}>LogOut</p>
         </div>
       </div>
     );
   } else {
     return (
-      <div className='w-full flex justify-evenly items-center bg-gray-200'>
+      <div className='w-full flex justify-evenly items-center bg-[#008AC9] text-[#ffffff]'>
         <Link href='/' className='flex justify-center items-center flex-col'>
-          <DocumentDuplicateIcon className='h-6 w-6' />
-          <p>Menu</p>
+          <DocumentDuplicateIcon className='h-5 w-5' />
+          <p style={{ fontSize: '14px' }}>Menu</p>
         </Link>
         <Link href='/cta' className='flex justify-center items-center flex-col'>
-          <InboxIcon className='h-6 w-6' />
-          <p>TrackOrder</p>
+          <InboxIcon className='h-5 w-5' />
+          <p style={{ fontSize: '14px' }}>TrackOrder</p>
         </Link>
         <Link
           href='/login'
           className='flex justify-center items-center flex-col'
         >
-          <ArrowLeftOnRectangleIcon className='h-6 w-6' />
-          <p>Login</p>
+          <ArrowLeftOnRectangleIcon className='h-5 w-5' />
+          <p style={{ fontSize: '14px' }}>Login</p>
         </Link>
       </div>
     );

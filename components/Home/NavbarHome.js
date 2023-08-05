@@ -5,7 +5,7 @@ export default function NavbarHome({ data }) {
   const [saveIdCategory, setSaveIdCategory] = useState('');
   console.log(saveIdCategory);
   return (
-    <div class='flex overflow-x-auto overflow-y-hidden border-b border-gray-200 whitespace-nowrap dark:border-gray-700'>
+    <div class='flex overflow-x-auto overflow-y-hidden border-b border-gray-200 whitespace-nowrap dark:border-gray-700 mt-5'>
       {data.map((item) => (
         <button
           key={item?.name}

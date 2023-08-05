@@ -4,6 +4,7 @@ import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 import { promoBannersImage } from '@/helper/myDummyData';
 import Image from 'next/image';
+
 export default function Slider() {
   // const { data, isError, isLoading } = useFetchDataClient('promobanners/load');
   return (
@@ -20,21 +21,16 @@ export default function Slider() {
       }}
     >
       {promoBannersImage.map((promoBannersImage) => (
-        <SwiperSlide
-          style={{
-            position: 'relative',
-            width: '100%',
-            height: '100%',
-          }}
-          key={promoBannersImage}
-        >
-          <Image
-            src={promoBannersImage.defaultImageURL}
-            alt='Picture of the author'
-            placeholder='blur'
-            fill={true}
-            blurDataURL={promoBannersImage.defaultImageURL}
-          />
+        <SwiperSlide key={promoBannersImage}>
+          <div className='w-full h-36 relative'>
+            <Image
+              alt='Signature Beef Stew 红烧牛肉'
+              fill={true}
+              placeholder='blur'
+              src={promoBannersImage.defaultImageURL}
+              blurDataURL={promoBannersImage.defaultImageURL}
+            />
+          </div>
         </SwiperSlide>
       ))}
     </Swiper>
