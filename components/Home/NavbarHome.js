@@ -1,20 +1,30 @@
-'use client';
-import { useState } from 'react';
-
-export default function NavbarHome({ data }) {
-  const [saveIdCategory, setSaveIdCategory] = useState('');
-  console.log(saveIdCategory);
+import 'react-dropdown/style.css';
+export default function NavbarHome({
+  setSaveIdCategory,
+  saveIdCategory,
+  firstThreeItems,
+  remainingItems,
+}) {
   return (
-    <div class='flex overflow-x-auto overflow-y-hidden border-b border-gray-200 whitespace-nowrap dark:border-gray-700 mt-5'>
-      {data.map((item) => (
-        <button
-          key={item?.name}
+    <div class='bg-[#d0d0d0] h-16 flex justify-between items-center'>
+      {firstThreeItems?.map((item) => (
+        <div
+          key={item?.id}
           onClick={() => setSaveIdCategory(item?.id)}
-          className='inline-flex items-center h-10 px-4 -mb-px text-sm text-center text-blue-600 bg-transparent border-b-2 sm:text-base dark:border-blue-400 dark:text-blue-300 whitespace-nowrap focus:outline-none'
+          className={`w-24 py-5 px-[2px] ${
+            saveIdCategory === item?.id ? 'bg-[#f78730]' : 'bg-transparent'
+          }`}
         >
-          {item?.name}
-        </button>
+          <p
+            className={`${
+              saveIdCategory === item?.id ? 'text-white' : 'text-black'
+            }  truncate text-sm`}
+          >
+            {item?.name}
+          </p>
+        </div>
       ))}
+      <div className='text-sm w-24 text-center text-[#f78730]'>More</div>
     </div>
   );
 }

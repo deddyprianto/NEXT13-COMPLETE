@@ -5,6 +5,7 @@ const initialState = {
   phoneNumberIsValid: false,
   dataPhoneNumber: {},
   loading: false,
+  idCategory: '',
 };
 
 const dataSlice = createSlice({
@@ -23,6 +24,9 @@ const dataSlice = createSlice({
     setDropDownPhoneCode: (state, action) => {
       state.dropDownPhoneCode = action.payload;
     },
+    setIdCategory: (state, action) => {
+      state.idCategory = action.payload;
+    },
   },
 });
 
@@ -31,5 +35,6 @@ export const {
   setIsLoading,
   setDataPhoneNumber,
   setDropDownPhoneCode,
+  setIdCategory,
 } = dataSlice.actions;
 export default dataSlice.reducer;

@@ -14,6 +14,7 @@ module.exports = {
       },
       gridTemplateColumns: {
         15: '200px 1fr',
+        16: '1fr 100px'
       },
       gridTemplateRows: {
         15: '70px 1fr 70px',

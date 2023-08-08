@@ -25,7 +25,7 @@ export default async function Page() {
   // INCREMENTAL STATIC  GENERATION ISR (can use both SSR/SSG)
   const data = await getData();
   return (
-    <div className='h-full w-full overflow-y-auto p-3'>
+    <div className='h-full w-full overflow-y-auto pl-[16px] pr-[16px]'>
       <Home data={data.data} />
     </div>
   );

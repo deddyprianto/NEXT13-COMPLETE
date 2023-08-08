@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import Drawer from 'react-modern-drawer';
 import 'react-modern-drawer/dist/index.css';
-import { Bars4Icon, ShoppingBagIcon } from '@heroicons/react/24/solid';
+import { Bars4Icon, ShoppingCartIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 
 export default function Header() {
@@ -37,7 +37,7 @@ export default function Header() {
           src='https://cdn-bucket-file-manager.s3.ap-southeast-1.amazonaws.com/Upload/50e6ca57-f761-4e7c-bf84-a1949f9792a8/ordering_setting/d0c9765f-304f-4f0d-b812-9a49d3055824.png'
           alt='prodImages'
         />
-        <ShoppingBagIcon className='h-8 w-8' />
+        <ShoppingCartIcon className='h-8 w-8' />
       </div>
       <Drawer open={isOpen} onClose={toggleDrawer} direction='left'>
         <RenderMenu />
