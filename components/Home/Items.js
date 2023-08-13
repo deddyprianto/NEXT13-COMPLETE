@@ -2,8 +2,11 @@ import Image from 'next/image';
 import React, { useCallback, useRef } from 'react';
 import { useInfiniteLoading } from '@/hooks/useInfiniteLoading';
 import { AnimationLoading } from '../AnimationLoading';
+import { useRouter } from 'next/navigation';
 
 export default function Items({ saveIdCategory }) {
+  const router = useRouter();
+
   const { dataResponse, isError, isLoading, setSize, size } =
     useInfiniteLoading(saveIdCategory);
 
@@ -55,7 +58,10 @@ export default function Items({ saveIdCategory }) {
                   height={80}
                   alt='image data url'
                 />
-                <button className='w-[80px] mx-2 my-2 bg-orange-500 transition duration-150 ease-in-out hover:bg-orange-500 rounded text-white px-6 py-1 text-xs'>
+                <button
+                  onClick={() => router.push(`/detail/${item?.id}`)}
+                  className='w-[80px] mx-2 my-2 bg-orange-500 transition duration-150 ease-in-out hover:bg-orange-500 rounded text-white px-6 py-1 text-xs'
+                >
                   Add
                 </button>
               </div>
@@ -87,7 +93,10 @@ export default function Items({ saveIdCategory }) {
                   height={80}
                   alt='image data url'
                 />
-                <button className='w-[80px] mx-2 my-2 bg-orange-500 transition duration-150 ease-in-out hover:bg-orange-500 rounded text-white px-6 py-1 text-xs'>
+                <button
+                  onClick={() => router.push(`/detail/${item?.id}`)}
+                  className='w-[80px] mx-2 my-2 bg-orange-500 transition duration-150 ease-in-out hover:bg-orange-500 rounded text-white px-6 py-1 text-xs'
+                >
                   Add
                 </button>
               </div>

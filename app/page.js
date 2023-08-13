@@ -1,15 +1,14 @@
 import Home from '@/components/Home/Home';
-import { COOKIE_NAME } from '@/constant';
+import { ID_OUTLET } from '@/constant';
 import { cookies } from 'next/headers';
 
 async function getData() {
   const cookieStore = cookies();
-  const myToken = cookieStore.get(COOKIE_NAME);
+  const idOutlet = cookieStore.get(ID_OUTLET);
   const resLoadCategory = await fetch(
-    'https://api-ximenjie.proseller-demo.com/product/api/productpreset/loadcategory/webOrdering/2046fd47-75f3-4af3-a11a-745e1f53cc73',
+    `https://api-ximenjie.proseller-demo.com/product/api/productpreset/loadcategory/webOrdering/${idOutlet?.value}`,
     {
       headers: {
-        Authorization: `Bearer ${myToken?.value}`,
         'Content-Type': 'application/json',
       },
     }
