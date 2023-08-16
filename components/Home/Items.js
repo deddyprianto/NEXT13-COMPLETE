@@ -1,11 +1,12 @@
 import Image from 'next/image';
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useInfiniteLoading } from '@/hooks/useInfiniteLoading';
 import { AnimationLoading } from '../AnimationLoading';
-import { useRouter } from 'next/navigation';
+import { ModalGeneral } from '../ModalGeneral';
 
 export default function Items({ saveIdCategory }) {
-  const router = useRouter();
+  const [selectedProduct, setSelectedProduct] = useState({})
+  const [isOpen, setIsOpen] = useState(false);
 
   const { dataResponse, isError, isLoading, setSize, size } =
     useInfiniteLoading(saveIdCategory);
@@ -59,7 +60,10 @@ export default function Items({ saveIdCategory }) {
                   alt='image data url'
                 />
                 <button
-                  onClick={() => router.push(`/detail/${item?.id}`)}
+                  onClick={() => {
+                    setSelectedProduct(item);
+                    setIsOpen(true);
+                  }}
                   className='w-[80px] mx-2 my-2 bg-orange-500 transition duration-150 ease-in-out hover:bg-orange-500 rounded text-white px-6 py-1 text-xs'
                 >
                   Add
@@ -94,7 +98,10 @@ export default function Items({ saveIdCategory }) {
                   alt='image data url'
                 />
                 <button
-                  onClick={() => router.push(`/detail/${item?.id}`)}
+                  onClick={() => {
+                    setSelectedProduct(item);
+                    setIsOpen(true);
+                  }}
                   className='w-[80px] mx-2 my-2 bg-orange-500 transition duration-150 ease-in-out hover:bg-orange-500 rounded text-white px-6 py-1 text-xs'
                 >
                   Add
@@ -120,6 +127,11 @@ export default function Items({ saveIdCategory }) {
           <p className='text-red-500 text-center'>{isError}</p>
         </div>
       )}
+      <ModalGeneral
+        setIsOpen={setIsOpen}
+        isOpen={isOpen}
+        selectedProduct={selectedProduct}
+      />
     </React.Fragment>
   );
 }
