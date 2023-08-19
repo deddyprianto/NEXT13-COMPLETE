@@ -4,8 +4,9 @@ import Drawer from 'react-modern-drawer';
 import 'react-modern-drawer/dist/index.css';
 import { Bars4Icon, ShoppingCartIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
-
+import { useRouter } from 'next/navigation';
 export default function Header() {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const toggleDrawer = () => {
     setIsOpen((prevState) => !prevState);
@@ -37,7 +38,9 @@ export default function Header() {
           src='https://cdn-bucket-file-manager.s3.ap-southeast-1.amazonaws.com/Upload/50e6ca57-f761-4e7c-bf84-a1949f9792a8/ordering_setting/d0c9765f-304f-4f0d-b812-9a49d3055824.png'
           alt='prodImages'
         />
-        <ShoppingCartIcon className='h-8 w-8' />
+        <div onClick={() => router.push('/cart')}>
+          <ShoppingCartIcon className='h-8 w-8' />
+        </div>
       </div>
       <Drawer open={isOpen} onClose={toggleDrawer} direction='left'>
         <RenderMenu />

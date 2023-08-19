@@ -4,6 +4,7 @@ async function getData() {
   const resLoadOutlets = await fetch(
     'https://api-ximenjie.proseller-demo.com/masterdata/api/outlets/load',
     {
+      cache: 'no-store',
       method: 'post',
       headers: {
         'Content-Type': 'application/json',

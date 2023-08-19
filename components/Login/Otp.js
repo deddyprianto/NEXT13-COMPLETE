@@ -31,7 +31,7 @@ export default function Otp() {
             dispatch(setIsLogin(true));
             // dispatch(setAccessToken(data?.data?.accessToken.token));
             // await axios.post('/api/otp', payload);
-            router.push('/');
+            router.push('/outlet');
           }
           return `${data?.message}`;
         },

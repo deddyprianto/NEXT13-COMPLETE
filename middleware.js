@@ -1,18 +1,16 @@
 import { NextResponse } from 'next/server';
-import { COOKIE_NAME } from './constant';
+import { COOKIE_NAME, ID_OUTLET } from './constant';
 
 export function middleware(request) {
   const path = request.nextUrl.pathname;
   const ispublicPath = path === '/outlet';
   const token = request.cookies.get(COOKIE_NAME)?.value || '';
-  if (ispublicPath && token) {
-    return NextResponse.redirect(new URL('/', request.nextUrl));
-  }
-  if (!ispublicPath && !token) {
+  const IdOutlet = request.cookies.get(ID_OUTLET)?.value || '';
+  if (!ispublicPath && !token && !IdOutlet) {
     return NextResponse.redirect(new URL('/outlet', request.nextUrl));
   }
 }
 
 export const config = {
-  matcher: ['/cart'],
+  matcher: ['/', '/cart', '/outlet'],
 };

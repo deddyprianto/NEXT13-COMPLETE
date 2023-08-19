@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { setDataPhoneNumber, setPhoneCode } from '@/store/dataSlice';
+import { setIsLogin } from '@/store/dataPersistedSlice';
 
 const RenderRootComponents = ({ isLogin, handleLogout }) => {
   if (isLogin) {
@@ -73,7 +74,8 @@ export default function Footer() {
       await axios.get('/api/logout');
       dispatch(setPhoneCode(false));
       dispatch(setDataPhoneNumber({}));
-      router.push('/login');
+      dispatch(setIsLogin(false));
+      router.push('/outlet');
     } catch (error) {
       console.log(error.message);
     }

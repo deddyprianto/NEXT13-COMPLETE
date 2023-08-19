@@ -6,11 +6,17 @@ async function getData() {
   const cookieStore = cookies();
   const idOutlet = cookieStore.get(ID_OUTLET);
   const resLoadCategory = await fetch(
-    `https://api-ximenjie.proseller-demo.com/product/api/productpreset/loadcategory/webOrdering/${idOutlet?.value}`,
+    `https://api-ximenjie.proseller-demo.com/product/api/productpreset/loadcategory/webOrdering/${idOutlet.value}`,
     {
+      method: 'POST',
       headers: {
+        Accept: 'application.json',
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify({
+        take: 500,
+        skip: 0,
+      }),
     }
   );
 
