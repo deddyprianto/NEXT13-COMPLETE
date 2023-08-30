@@ -8,14 +8,16 @@ export default function GeneralItemDetail({ setIsOpen, selectedProduct }) {
   const selectedOutlet = useSelector(
     (state) => state.dataPersist.outletSelected
   );
-  console.log(selectedOutlet);
+
   const [modifiers, setModifiers] = useState([]);
+
   const handleAddItem = async () => {
     const payload = {
       details: modifiers,
+      orderingMode: 'TAKEAWAY',
       outletID: selectedOutlet.id,
     };
-    
+    console.log(payload);
   };
   return (
     <div className='grid grid-rows-16 h-full'>
@@ -77,7 +79,7 @@ export default function GeneralItemDetail({ setIsOpen, selectedProduct }) {
           onClick={handleAddItem}
           className='bg-[#F7872F] w-full py-2 rounded-lg text-white'
         >
-          Add Item
+          Add Item lol
         </button>
       </div>
     </div>

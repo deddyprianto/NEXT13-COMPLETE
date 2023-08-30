@@ -7,6 +7,9 @@ import { setIsLogin } from '@/store/dataPersistedSlice';
 import { useRouter } from 'next/navigation';
 
 export default function Otp() {
+  const outletSelected = useSelector(
+    (state) => state.dataPersist.outletSelected
+  );
   const router = useRouter();
   const dispatch = useDispatch();
   const phoneData = useSelector((state) => state.dataUser.dataPhoneNumber);
@@ -31,7 +34,11 @@ export default function Otp() {
             dispatch(setIsLogin(true));
             // dispatch(setAccessToken(data?.data?.accessToken.token));
             // await axios.post('/api/otp', payload);
-            router.push('/outlet');
+            if (outletSelected.id) {
+              router.push('/');
+            } else {
+              router.push('/outlet');
+            }
           }
           return `${data?.message}`;
         },

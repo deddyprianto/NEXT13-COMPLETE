@@ -5,7 +5,7 @@ import { AnimationLoading } from '../AnimationLoading';
 import { ModalGeneral } from '../ModalGeneral';
 
 export default function Items({ saveIdCategory }) {
-  const [selectedProduct, setSelectedProduct] = useState({})
+  const [selectedProduct, setSelectedProduct] = useState({});
   const [isOpen, setIsOpen] = useState(false);
 
   const { dataResponse, isError, isLoading, setSize, size } =
