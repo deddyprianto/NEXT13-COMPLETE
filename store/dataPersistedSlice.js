@@ -2,6 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   accessToken: '',
+  isLogin: false,
+  outletSelected: {},
 };
 
 const dataPersistedSlice = createSlice({
@@ -11,8 +13,15 @@ const dataPersistedSlice = createSlice({
     setAccessToken: (state, action) => {
       state.accessToken = action.payload;
     },
+    setIsLogin: (state, action) => {
+      state.isLogin = action.payload;
+    },
+    setOutletSelected: (state, action) => {
+      state.outletSelected = action.payload;
+    },
   },
 });
 
-export const { setAccessToken } = dataPersistedSlice.actions;
+export const { setAccessToken, setIsLogin, setOutletSelected } =
+  dataPersistedSlice.actions;
 export default dataPersistedSlice.reducer;

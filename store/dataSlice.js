@@ -1,18 +1,40 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  accessToken: '',
+  dropDownPhoneCode: '+65',
+  phoneNumberIsValid: false,
+  dataPhoneNumber: {},
+  loading: false,
+  idCategory: '',
 };
 
 const dataSlice = createSlice({
   name: 'dataSlice',
   initialState,
   reducers: {
-    setDataUser: (state, action) => {
-      state.accessToken = action.payload;
+    setPhoneCode: (state, action) => {
+      state.phoneNumberIsValid = action.payload;
+    },
+    setIsLoading: (state, action) => {
+      state.loading = action.payload;
+    },
+    setDataPhoneNumber: (state, action) => {
+      state.dataPhoneNumber = action.payload;
+    },
+    setDropDownPhoneCode: (state, action) => {
+      state.dropDownPhoneCode = action.payload;
+    },
+    setIdCategory: (state, action) => {
+      state.idCategory = action.payload;
     },
   },
 });
 
-export const { setDataUser } = dataSlice.actions;
+export const {
+  setPhoneCode,
+  setIsLoading,
+  setDataPhoneNumber,
+  setDropDownPhoneCode,
+  setIdCategory,
+} = dataSlice.actions;
 export default dataSlice.reducer;

@@ -18,3 +18,21 @@ export const addProdToDatabase = async (e) => {
   });
   revalidateTag('family');
 };
+
+export const checkUserHasBeenRegister = async (phoneNumber) => {
+  if (phoneNumber) return;
+  const payload = {
+    phoneNumber,
+  };
+  await fetch(
+    'https://api-newmujicafe.proseller-demo.com/crm/api/customer/login/check-account',
+    {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  revalidateTag('check-account');
+};

@@ -2,9 +2,11 @@
 import { useState } from 'react';
 import Drawer from 'react-modern-drawer';
 import 'react-modern-drawer/dist/index.css';
-import { Bars4Icon, ShoppingBagIcon } from '@heroicons/react/24/solid';
-
+import { Bars4Icon, ShoppingCartIcon } from '@heroicons/react/24/solid';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 export default function Header() {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const toggleDrawer = () => {
     setIsOpen((prevState) => !prevState);
@@ -25,23 +27,20 @@ export default function Header() {
   const RenderHamburgerMenu = () => {
     return <Bars4Icon onClick={toggleDrawer} className='h-6 w-6' />;
   };
-  const RenderLogo = () => {
-    return (
-      <img
-        width={100}
-        height={100}
-        src='https://cdn-bucket-file-manager.s3.ap-southeast-1.amazonaws.com/Upload/bbbe9dbf-7a69-441d-964a-25688ab6dfe6/ordering_setting/6751e22d-131e-42f3-8d8b-89a014b68b8a.png'
-        alt='prodImages'
-      />
-    );
-  };
 
   return (
     <div>
-      <div className='w-full flex justify-between items-center bg-gray-200 p-5'>
+      <div className='w-full flex justify-between items-center bg-white p-5'>
         <RenderHamburgerMenu />
-        <RenderLogo />
-        <ShoppingBagIcon className='h-8 w-8' />
+        <Image
+          width={100}
+          height={100}
+          src='https://cdn-bucket-file-manager.s3.ap-southeast-1.amazonaws.com/Upload/50e6ca57-f761-4e7c-bf84-a1949f9792a8/ordering_setting/d0c9765f-304f-4f0d-b812-9a49d3055824.png'
+          alt='prodImages'
+        />
+        <div onClick={() => router.push('/cart')}>
+          <ShoppingCartIcon className='h-8 w-8' />
+        </div>
       </div>
       <Drawer open={isOpen} onClose={toggleDrawer} direction='left'>
         <RenderMenu />

@@ -1,4 +1,4 @@
-import MyModal from './MyModal';
+import MyModal from './Cta/Popup';
 
 export default function CardCta({ items }) {
   const ListCard = ({ itemData }) => {

@@ -1,23 +1,37 @@
-import Card from '@/components/Card';
+import Home from '@/components/Home/Home';
+import { ID_OUTLET } from '@/constant';
+import { cookies } from 'next/headers';
 
-export default async function Page() {
-  const res = await fetch(
-    'https://api-chickyfun.proseller-demo.com/ordering/api/cart/getcart',
+async function getData() {
+  const cookieStore = cookies();
+  const idOutlet = cookieStore.get(ID_OUTLET);
+  const resLoadCategory = await fetch(
+    `https://api-ximenjie.proseller-demo.com/product/api/productpreset/loadcategory/webOrdering/${idOutlet.value}`,
     {
-      next: {
-        revalidate: 10,
-      },
+      method: 'POST',
       headers: {
-        Authorization:
-          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5OGZlMmQ3OC00Y2EyLTQzNmQtYjUyNi1jYzViOTE1MTc5MjYiLCJjb21wYW55SWQiOiJjb21wYW55OjpjMjY4ODY5OC1hY2JmLTQ1ODctOTlmZS04ZjExYzBhM2FjNGEiLCJldmVudF9pZCI6ImRhMTNiOTNhLTEyZDQtNGQ0Ni1hNjFkLWU1ZGQ2NGYyZDg0ZiIsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNjg4NzI2NDk0LCJuYW1lIjoidGVzc3MiLCJwaG9uZV9udW1iZXIiOiIrNjUxMjMxMjMiLCJleHAiOjE2ODg4MTI4OTQsImlhdCI6MTY4ODcyNjQ5NCwic2lnbkFzIjoiY3VzdG9tZXI6Ojk4ZmUyZDc4LTRjYTItNDM2ZC1iNTI2LWNjNWI5MTUxNzkyNiIsImVtYWlsIjoidGVzdDk5QHRlc3QuY29tIiwiZG9tYWluTmFtZSI6ImFwaS1jaGlja3lmdW4ucHJvc2VsbGVyLWRlbW8uY29tIiwiY29tcGFueU5hbWUiOiJDaGlja3lGdW5EZW1vIn0._afRyHLuUjFfLUnye9f8-jYEz-HONjuKxrbrY4K6pAE',
+        Accept: 'application.json',
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify({
+        take: 500,
+        skip: 0,
+      }),
     }
   );
-  const data = await res.json();
+
+  return resLoadCategory.json();
+}
+
+export default async function Page() {
+  // 3 data fetching in Nextj13
+  // SERVER SIDE RENDERING SSR (Cache: 'no-store')
+  // STATIC SIDE GENERATION SSG (default is cache)
+  // INCREMENTAL STATIC  GENERATION ISR (can use both SSR/SSG)
+  const data = await getData();
   return (
-    <div className='h-full w-full overflow-y-auto p-3'>
-      <Card items={data.data} />
+    <div className='h-full w-full overflow-y-auto pl-[16px] pr-[16px]'>
+      <Home data={data.data} />
     </div>
   );
 }
