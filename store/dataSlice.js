@@ -6,6 +6,9 @@ const initialState = {
   dataPhoneNumber: {},
   loading: false,
   idCategory: '',
+  isRefreshPage: false,
+  setting: [],
+  dataCart: {},
 };
 
 const dataSlice = createSlice({
@@ -27,6 +30,15 @@ const dataSlice = createSlice({
     setIdCategory: (state, action) => {
       state.idCategory = action.payload;
     },
+    setIsRefreshPage: (state, action) => {
+      state.isRefreshPage = action.payload;
+    },
+    setSettings: (state, action) => {
+      state.setting = action.payload;
+    },
+    setDataCart: (state, action) => {
+      state.dataCart = action.payload;
+    },
   },
 });
 
@@ -36,5 +48,8 @@ export const {
   setDataPhoneNumber,
   setDropDownPhoneCode,
   setIdCategory,
+  setIsRefreshPage,
+  setSettings,
+  setDataCart,
 } = dataSlice.actions;
 export default dataSlice.reducer;

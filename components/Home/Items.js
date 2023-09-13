@@ -1,10 +1,21 @@
 import Image from 'next/image';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useInfiniteLoading } from '@/hooks/useInfiniteLoading';
 import { AnimationLoading } from '../AnimationLoading';
 import { ModalGeneral } from '../ModalGeneral';
+import { useStateValueContext } from '../StateContext';
+import { actionTypes } from '@/helper/reducer';
 
-export default function Items({ saveIdCategory }) {
+export default function Items({ saveIdCategory, token }) {
+  const [tokenValue, dispatch] = useStateValueContext();
+
+  useEffect(() => {
+    dispatch({
+      type: actionTypes.SET_TOKEN,
+      tokenVal: token,
+    });
+  }, []);
+
   const [selectedProduct, setSelectedProduct] = useState({});
   const [isOpen, setIsOpen] = useState(false);
 
