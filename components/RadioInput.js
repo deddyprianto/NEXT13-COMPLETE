@@ -1,33 +1,48 @@
 import { useState } from 'react';
 
-export default function RadioInput({ modifer, setModifiers }) {
+export default function RadioInput({ modifier, setModifiers, modifierID }) {
+  const [quantity, setQuantity] = useState(1);
+
   const [selectedValue, setSelectedValue] = useState('');
 
   const handleChange = (event) => {
     if (!selectedValue) {
       setSelectedValue(event.target.value);
-      setModifiers((prevArray) => [...prevArray, modifer]);
+      setModifiers((prevArray) => [
+        ...prevArray,
+        {
+          modifierID,
+          modifier: {
+            name: modifier.name,
+            productID: modifier.productID,
+            price: modifier.price,
+          },
+        },
+      ]);
     } else {
       setSelectedValue('');
       setModifiers((prevArray) => prevArray.slice(0, prevArray.length - 1));
     }
   };
+
+  // const renderQtyButton = () => {};
+
   return (
     <>
-      <div className='py-4 flex items-center'>
+      <div className='py-2 flex items-center'>
         <div
           className={`${
-            selectedValue === modifer.name
-              ? 'bg-[#f78730]'
-              : 'bg-white border border-gray-400'
+            selectedValue === modifier.name
+              ? 'bg-[#667080]'
+              : 'bg-white border-[2px] border-[#666]'
           } rounded-sm  w-5 h-5 flex flex-shrink-0 justify-center items-center relative`}
         >
           <input
             onChange={handleChange}
-            checked={selectedValue === modifer.name}
+            checked={selectedValue === modifier.name}
             type='checkbox'
             className='checkbox opacity-0 absolute cursor-pointer w-full h-full'
-            value={modifer.name}
+            value={modifier.name}
           />
           <div className='check-icon hidden text-white rounded-sm'>
             <svg
@@ -36,7 +51,7 @@ export default function RadioInput({ modifer, setModifiers }) {
               width={20}
               height={20}
               viewBox='0 0 24 24'
-              strokeWidth='1.5'
+              strokeWidth='2.5'
               stroke='currentColor'
               fill='none'
               strokeLinecap='round'
@@ -47,9 +62,9 @@ export default function RadioInput({ modifer, setModifiers }) {
             </svg>
           </div>
         </div>
-        <div className='flex items-center ml-2'>
-          <div>{modifer.name}</div>
-          <div>{modifer.price}</div>
+        <div className='pl-2'>
+          <div className='text-[12px]'>{modifier.name}</div>
+          <div className='text-[#8a8d8e] text-[10px]'>SGD {modifier.price}</div>
         </div>
       </div>
       <style>

@@ -4,6 +4,7 @@ const initialState = {
   accessToken: '',
   isLogin: false,
   outletSelected: {},
+  countCart: 0,
 };
 
 const dataPersistedSlice = createSlice({
@@ -19,9 +20,12 @@ const dataPersistedSlice = createSlice({
     setOutletSelected: (state, action) => {
       state.outletSelected = action.payload;
     },
+    setCountCart: (state, action) => {
+      state.countCart = action.payload;
+    },
   },
 });
 
-export const { setAccessToken, setIsLogin, setOutletSelected } =
+export const { setAccessToken, setIsLogin, setOutletSelected, setCountCart } =
   dataPersistedSlice.actions;
 export default dataPersistedSlice.reducer;

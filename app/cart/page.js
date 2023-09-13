@@ -1,8 +1,5 @@
-export default function Cart() {
-  console.log('render page CART');
-  return (
-    <div>
-      <h1>Cart</h1>
-    </div>
-  );
+import Cart from '@/components/Cart';
+
+export default function CartPage() {
+  return <Cart />;
 }

@@ -2,22 +2,226 @@ import Image from 'next/image';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import RadioInput from './RadioInput';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
+import { toast } from 'react-hot-toast';
+import { useStateValueContext } from './StateContext';
+import { setCountCart } from '@/store/dataPersistedSlice';
+import useSWR from 'swr';
+import { useRouter } from 'next/navigation';
+import { setDataCart } from '@/store/dataSlice';
 
 export default function GeneralItemDetail({ setIsOpen, selectedProduct }) {
+  const [{ tokenVal }, dispatchContext] = useStateValueContext();
+  const router = useRouter();
+
+  const dispatch = useDispatch();
+  const setting = useSelector((state) => state.dataUser.setting);
+
   const selectedOutlet = useSelector(
     (state) => state.dataPersist.outletSelected
   );
 
   const [modifiers, setModifiers] = useState([]);
 
-  const handleAddItem = async () => {
+  const fetcher = async (url) => {
+    const response = await fetch(url, {
+      headers: {
+        Accept: 'application.json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${tokenVal.value}`,
+      },
+    });
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message);
+    }
+
+    return data.data;
+  };
+
+  const { data, mutate } = useSWR(
+    'https://api-ximenjie.proseller-demo.com/ordering/api/cart/getcart',
+    fetcher
+  );
+
+  const handleAddToCart = async () => {
+    const modiferGroupingMap = Object.values(
+      modifiers.reduce((accumulator, item) => {
+        if (!accumulator[item.modifierID]) {
+          accumulator[item.modifierID] = {
+            modifierID: item.modifierID,
+            modifier: {
+              details: [],
+            },
+          };
+        }
+
+        accumulator[item.modifierID].modifier.details.push({
+          name: item.modifier.name,
+          productID: item.modifier.productID,
+          price: item.modifier.price,
+          quantity: 1,
+        });
+
+        return accumulator;
+      }, {})
+    );
+
     const payload = {
-      details: modifiers,
-      orderingMode: 'TAKEAWAY',
-      outletID: selectedOutlet.id,
+      details: [
+        {
+          ...(modifiers.length > 0 && { modifiers: modiferGroupingMap }),
+          productID: selectedProduct.productID,
+          quantity: 3,
+          remark: '',
+          unitPrice: selectedProduct.product.retailPrice,
+        },
+      ],
+      outletID: `outlet::${selectedOutlet.id}`,
     };
-    console.log(payload);
+
+    // Optimistically update the data in the cache
+    mutate({ ...data, addedToCart: true }, false);
+
+    try {
+      const response = await fetch(
+        'https://api-ximenjie.proseller-demo.com/ordering/api/cart/additem',
+        {
+          method: 'POST',
+          body: JSON.stringify(payload),
+          headers: {
+            'Content-type': 'application/json',
+            Authorization: `Bearer ${tokenVal.value}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to add to cart');
+      }
+
+      // On success, update the cache with the actual data from the server
+      mutate({ ...data, addedToCart: true });
+
+      // Redirect to cart page
+      dispatch(setDataCart(data));
+      router.push('/cart');
+    } catch (error) {
+      // Handle error case
+      console.error(error);
+      // Rollback the optimistic update
+      mutate();
+    }
+  };
+
+  const handleAddItem = async () => {
+    // const finalFormats = Object.values(
+    //   modifiers.reduce((accumulator, item) => {
+    //     if (!accumulator[item.modifierID]) {
+    //       accumulator[item.modifierID] = {
+    //         modifierID: item.modifierID,
+    //         modifer: {
+    //           details: [],
+    //         },
+    //       };
+    //     }
+
+    //     accumulator[item.modifierID].modifer.details.push(
+    //       item.modifer.details[0]
+    //     );
+
+    //     return accumulator;
+    //   }, {})
+    // );
+
+    const modiferGroupingMap = Object.values(
+      modifiers.reduce((accumulator, item) => {
+        if (!accumulator[item.modifierID]) {
+          accumulator[item.modifierID] = {
+            modifierID: item.modifierID,
+            modifier: {
+              details: [],
+            },
+          };
+        }
+
+        accumulator[item.modifierID].modifier.details.push({
+          name: item.modifier.name,
+          productID: item.modifier.productID,
+          price: item.modifier.price,
+          quantity: 1,
+        });
+
+        return accumulator;
+      }, {})
+    );
+
+    const payload = {
+      details: [
+        {
+          ...(modifiers.length > 0 && { modifiers: modiferGroupingMap }),
+          productID: selectedProduct.productID,
+          quantity: 3,
+          remark: '',
+          unitPrice: selectedProduct.product.retailPrice,
+        },
+      ],
+      outletID: `outlet::${selectedOutlet.id}`,
+    };
+
+    const response = axios.post(
+      'https://api-ximenjie.proseller-demo.com/ordering/api/cart/additem',
+      payload,
+      {
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: `Bearer ${tokenVal.value}`,
+        },
+      }
+    );
+    toast.promise(
+      response,
+      {
+        loading: 'Please Wait...',
+        success: async ({ data }) => {
+          dispatch(setCountCart(data.data.details.length));
+          setIsOpen(false);
+          return 'successfully added to cart';
+        },
+        error: (err) => {
+          return `This just happened: ${err.message}`;
+        },
+      },
+      {
+        style: {
+          minWidth: '250px',
+          filter: 'drop-shadow(0 25px 25px rgb(0 0 0 / 0.15))',
+        },
+        success: {
+          duration: 5000,
+          icon: '🔥',
+        },
+      }
+    );
+  };
+
+  const renderMinMax = (item) => {
+    if (item.modifier.max === 0 || item.modifier.min === 0) {
+      return (
+        <div className='flex items-center text-[10px] ml-4 font-normal opacity-60 text-[#b7b7b7]'>
+          <h1>Optional</h1>
+        </div>
+      );
+    } else {
+      return (
+        <div className='flex items-center text-[10px] ml-4 font-normal opacity-60 text-[#b7b7b7]'>
+          <h1>Min {item.modifier.min}</h1>
+          <h1 className='ml-1'>Max {item.modifier.max}</h1>
+        </div>
+      );
+    }
   };
   return (
     <div className='grid grid-rows-16 h-full'>
@@ -37,49 +241,43 @@ export default function GeneralItemDetail({ setIsOpen, selectedProduct }) {
             alt='image data url'
           />
         </div>
-        <div className='w-full flex justify-between items-center mt-2'>
+        <div className='w-full flex justify-between items-center mt-2 text-[14px] font-bold'>
           <h1>{selectedProduct?.product.name}</h1>
           <h1 className='text-[#f78730]'>
-            {selectedProduct?.product.retailPrice}
+            SGD {selectedProduct?.product.retailPrice}
           </h1>
         </div>
-        {/* modifer */}
-        <div className='mt-10'>
-          <h1>
-            {selectedProduct?.product?.productModifiers?.map((item) => {
-              return (
-                <div key={item?.id}>
-                  <div className='flex items-center'>
-                    <div>{item.modifierName}</div>
-                    <div className='flex items-center text-[12px] ml-4 font-normal opacity-60'>
-                      <h1>Min {item.modifier.min}</h1>
-                      <h1 className='ml-1'>Max {item.modifier.max}</h1>
+        {selectedProduct?.product?.productModifiers?.map((item) => {
+          return (
+            <div key={item?.modifierID} className='mt-10'>
+              <div className='flex items-center'>
+                <div className='text-[14px]'>{item.modifierName}</div>
+                {renderMinMax(item)}
+              </div>
+              <div className='mt-2 font-normal text-sm'>
+                {item?.modifier?.details?.map((modifier) => {
+                  return (
+                    <div key={modifier?.id}>
+                      <RadioInput
+                        modifierID={item.modifierID}
+                        modifier={modifier}
+                        setModifiers={setModifiers}
+                      />
+                      <hr className='bg-[#ccc] h-[2px]' />
                     </div>
-                  </div>
-                  {/* item modifer */}
-                  <div className='mt-2 font-normal text-sm'>
-                    {item?.modifier?.details?.map((modifer) => {
-                      return (
-                        <RadioInput
-                          key={item.id}
-                          modifer={modifer}
-                          setModifiers={setModifiers}
-                        />
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
-          </h1>
-        </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
       </div>
       <div className='w-full bg-[#D0D0D0] p-2 flex items-center justify-center'>
         <button
-          onClick={handleAddItem}
+          onClick={handleAddToCart}
           className='bg-[#F7872F] w-full py-2 rounded-lg text-white'
         >
-          Add Item lol
+          Add Item
         </button>
       </div>
     </div>
