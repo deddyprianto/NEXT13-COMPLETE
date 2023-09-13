@@ -84,7 +84,6 @@ export default function GeneralItemDetail({ setIsOpen, selectedProduct }) {
 
     // Optimistically update the data in the cache
     mutate({ ...data, addedToCart: true }, false);
-
     try {
       const response = await fetch(
         'https://api-ximenjie.proseller-demo.com/ordering/api/cart/additem',
@@ -104,9 +103,6 @@ export default function GeneralItemDetail({ setIsOpen, selectedProduct }) {
 
       // On success, update the cache with the actual data from the server
       mutate({ ...data, addedToCart: true });
-
-      // Redirect to cart page
-      dispatch(setDataCart(data));
       router.push('/cart');
     } catch (error) {
       // Handle error case

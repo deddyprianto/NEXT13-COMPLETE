@@ -1,9 +1,30 @@
 'use client';
-import { useSelector } from 'react-redux';
+import useSWR from 'swr';
+import { useStateValueContext } from '../StateContext';
 
-export default function Cart() {
-  const data = useSelector((state) => state.dataUser.dataCart);
-  console.log('data =>', data);
+export default function Cart({ tokenVal }) {
+  const fetcher = async (url) => {
+    const response = await fetch(url, {
+      headers: {
+        Accept: 'application.json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${tokenVal.value}`,
+      },
+    });
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message);
+    }
+
+    return data.data;
+  };
+
+  const { data } = useSWR(
+    'https://api-ximenjie.proseller-demo.com/ordering/api/cart/getcart',
+    fetcher
+  );
+
   return (
     <div className='p-[16px] h-full overflow-y-auto'>
       {data?.details?.map((item) => {
