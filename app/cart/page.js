@@ -1,6 +1,5 @@
 import Cart from '@/components/Cart';
 import { COOKIE_NAME } from '@/constant';
-
 import { cookies } from 'next/headers';
 
 async function getData() {

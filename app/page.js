@@ -61,7 +61,6 @@ export default async function Page() {
   const data = await getData();
   const dataPromoBanner = await getDataPromoBanner();
   const setting = await getDataSettings();
-  console.log('token =>', token);
   return (
     <div className='h-full w-full overflow-y-auto pl-[16px] pr-[16px]'>
       <Home
