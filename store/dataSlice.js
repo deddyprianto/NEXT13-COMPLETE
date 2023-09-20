@@ -9,6 +9,7 @@ const initialState = {
   isRefreshPage: false,
   setting: [],
   dataCart: {},
+  countCart: 0,
 };
 
 const dataSlice = createSlice({
@@ -39,6 +40,9 @@ const dataSlice = createSlice({
     setDataCart: (state, action) => {
       state.dataCart = action.payload;
     },
+    setCountCart: (state, action) => {
+      state.countCart = action.payload;
+    },
   },
 });
 
@@ -51,5 +55,6 @@ export const {
   setIsRefreshPage,
   setSettings,
   setDataCart,
+  setCountCart,
 } = dataSlice.actions;
 export default dataSlice.reducer;

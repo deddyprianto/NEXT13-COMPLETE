@@ -5,8 +5,10 @@ import 'react-modern-drawer/dist/index.css';
 import { Bars4Icon, ShoppingCartIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
 
 export default function Header() {
+  const countCart = useSelector((state) => state.dataUser.countCart);
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const toggleDrawer = () => {
@@ -40,6 +42,11 @@ export default function Header() {
           alt='prodImages'
         />
         <div onClick={() => router.push('/cart')} className='relative'>
+          {countCart !== 0 && (
+            <div className='m-0 p-0 absolute -top-1 -right-2 h-[20px] w-[20px] rounded-full bg-red-500 text-center text-white text-[10px] leading-[20px]'>
+              <div>{countCart}</div>
+            </div>
+          )}
           <ShoppingCartIcon className='h-8 w-8' />
         </div>
       </div>

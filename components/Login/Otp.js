@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import ButtonLogin from './ButtonLogin';
 import { setIsLogin } from '@/store/dataPersistedSlice';
 import { useRouter } from 'next/navigation';
+import { setIsRefreshPage } from '@/store/dataSlice';
 
 export default function Otp() {
   const outletSelected = useSelector(
@@ -35,6 +36,7 @@ export default function Otp() {
             // dispatch(setAccessToken(data?.data?.accessToken.token));
             // await axios.post('/api/otp', payload);
             if (outletSelected.id) {
+              dispatch(setIsRefreshPage(true));
               router.push('/');
             } else {
               router.push('/outlet');

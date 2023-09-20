@@ -8,8 +8,8 @@ import { useRouter } from 'next/navigation';
 import { MapPinIcon } from '@heroicons/react/24/solid';
 import { StateProvider } from '../StateContext';
 import { initialState, reducer } from '@/helper/reducer';
-import { setSettings } from '@/store/dataSlice';
-import useSWR from 'swr';
+import { setCountCart, setSettings } from '@/store/dataSlice';
+import axios from 'axios';
 
 export default function Home({
   dataRes,
@@ -26,28 +26,31 @@ export default function Home({
   const [saveIdCategory, setSaveIdCategory] = useState(dataRes[0].id);
   const firstThreeItems = dataRes.slice(0, 3);
   const remainingItems = dataRes.slice(3);
-  console.log(token);
-  const fetcher = async (url) => {
-    const response = await fetch(url, {
-      headers: {
-        Accept: 'application.json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token.value}`,
-      },
-    });
-    const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(data.message);
+  useEffect(() => {
+    const getCart = async () => {
+      try {
+        const response = await axios.get(
+          'https://api-ximenjie.proseller-demo.com/ordering/api/cart/getcart',
+          {
+            headers: {
+              Accept: 'application.json',
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token.value}`,
+            },
+          }
+        );
+        if (response.data.status !== 'NOTFOUND') {
+          dispatch(setCountCart(response.data.data.details.length));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    if (token) {
+      getCart();
     }
-
-    return data.data;
-  };
-
-  const { data } = useSWR(
-    'https://api-ximenjie.proseller-demo.com/ordering/api/cart/getcart',
-    fetcher
-  );
+  }, [token]);
 
   useEffect(() => {
     // const filterOnlyLayout  = settingsWebordering.
