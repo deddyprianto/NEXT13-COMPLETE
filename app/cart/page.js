@@ -1,6 +1,7 @@
 import Cart from '@/components/Cart';
 import { COOKIE_NAME } from '@/constant';
 import { cookies } from 'next/headers';
+import { revalidateTag } from 'next/cache';
 
 async function getData() {
   const cookieStore = cookies();
@@ -13,9 +14,12 @@ async function getData() {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token.value}`,
       },
+      next: {
+        tags: ['getcart'],
+      },
     }
   );
-
+  revalidateTag('getcart');
   return resLoadCategory.json();
 }
 export default async function CartSSR() {
