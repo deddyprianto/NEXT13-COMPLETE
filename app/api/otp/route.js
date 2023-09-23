@@ -1,9 +1,8 @@
 import { NextResponse } from 'next/server';
 import axios from 'axios';
 import { serialize } from 'cookie';
-import { COOKIE_NAME } from '@/constant';
+import { COOKIE_NAME, MAX_AGE } from '@/constant';
 
-const MAX_AGE = 60 * 60 * 24 * 30;
 export async function POST(request) {
   const body = await request.json();
   const { codeOTP, phoneNumber } = body;

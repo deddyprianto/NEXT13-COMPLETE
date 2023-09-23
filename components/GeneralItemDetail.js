@@ -75,12 +75,11 @@ export default function GeneralItemDetail({ setIsOpen, selectedProduct }) {
     };
 
     const response = axios.post(
-      'https://api-ximenjie.proseller-demo.com/ordering/api/cart/additem',
-      payload,
+      'https://64a7ca17dca581464b84c889.mockapi.io/students/family',
+      { name: 'dedd', address: 'medan' },
       {
         headers: {
           'Content-type': 'application/json',
-          Authorization: `Bearer ${tokenVal.value}`,
         },
       }
     );

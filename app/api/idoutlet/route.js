@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
 import { serialize } from 'cookie';
-import { ID_OUTLET } from '@/constant';
+import { ID_OUTLET, MAX_AGE } from '@/constant';
 
 export async function POST(request) {
+  console.log('minta request =>', request);
   const body = await request.json();
   const { idOutlet } = body;
   if (!idOutlet) {
@@ -20,6 +21,7 @@ export async function POST(request) {
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict',
     path: '/',
+    maxAge: MAX_AGE,
   });
   const responseMessage = {
     message: 'Authenticated!',
