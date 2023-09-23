@@ -2,15 +2,11 @@ import Cart from '@/components/Cart';
 import { COOKIE_NAME } from '@/constant';
 import { cookies } from 'next/headers';
 
-async function getData() {
-  const cookieStore = cookies();
-  const token = cookieStore.get(COOKIE_NAME);
+async function getData(token) {
   const resLoadCategory = await fetch(
-    `http://localhost:3000/api/revalidate?tag=family&secret=${token.value}`,
+    `https://64a7ca17dca581464b84c889.mockapi.io/students/family`,
     {
-      next: {
-        tags: ['family'],
-      },
+      cache: 'no-store',
     }
   );
 
@@ -25,11 +21,8 @@ async function getData() {
 }
 
 export default async function CartSSR() {
-  try {
-    const dataCart = await getData();
-    return <Cart data={dataCart} />;
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    return <div>Error fetching data: {error.message}</div>;
-  }
+  const cookieStore = cookies();
+  const token = cookieStore.get(COOKIE_NAME);
+  const dataCart = await getData(token);
+  return <Cart data={dataCart} />;
 }

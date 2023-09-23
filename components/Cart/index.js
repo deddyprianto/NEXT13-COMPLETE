@@ -3,7 +3,7 @@ export default function Cart({ data }) {
   console.log(data);
   return (
     <div className='p-[16px] h-full overflow-y-auto'>
-      <h1 className='font-bold text-2xl mt-10'>{data.data.length}</h1>
+      <h1 className='font-bold text-2xl mt-10'>{data?.length}</h1>
       {data?.data?.data?.details?.map((item) => {
         return (
           <div
