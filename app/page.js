@@ -24,6 +24,7 @@ async function getData() {
 }
 
 export default async function Page() {
+  console.log('DEPLOYED SUCCES');
   // 3 data fetching in Nextj13
   // SERVER SIDE RENDERING SSR (Cache: 'no-store')
   // STATIC SIDE GENERATION SSG (default is cache)
