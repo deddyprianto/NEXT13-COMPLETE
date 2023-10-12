@@ -2,20 +2,16 @@ import Image from 'next/image';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import RadioInput from './RadioInput';
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
-import { toast } from 'react-hot-toast';
+import { useSelector } from 'react-redux';
 import { useStateValueContext } from './StateContext';
-import { setCountCart } from '@/store/dataPersistedSlice';
 import useSWR from 'swr';
 import { useRouter } from 'next/navigation';
-import { setDataCart } from '@/store/dataSlice';
+import { fetcher } from '@/helper/myfn';
 
 export default function GeneralItemDetail({ setIsOpen, selectedProduct }) {
   const [{ tokenVal }, dispatchContext] = useStateValueContext();
   const router = useRouter();
 
-  const dispatch = useDispatch();
   const setting = useSelector((state) => state.dataUser.setting);
 
   const selectedOutlet = useSelector(
@@ -24,26 +20,9 @@ export default function GeneralItemDetail({ setIsOpen, selectedProduct }) {
 
   const [modifiers, setModifiers] = useState([]);
 
-  const fetcher = async (url) => {
-    const response = await fetch(url, {
-      headers: {
-        Accept: 'application.json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${tokenVal.value}`,
-      },
-    });
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message);
-    }
-
-    return data.data;
-  };
-
   const { data, mutate } = useSWR(
     'https://api-ximenjie.proseller-demo.com/ordering/api/cart/getcart',
-    fetcher
+    (url) => fetcher(url, tokenVal)
   );
 
   const handleAddToCart = async () => {
@@ -82,8 +61,6 @@ export default function GeneralItemDetail({ setIsOpen, selectedProduct }) {
       outletID: `outlet::${selectedOutlet.id}`,
     };
 
-    // Optimistically update the data in the cache
-    mutate({ ...data, addedToCart: true }, false);
     try {
       const response = await fetch(
         'https://api-ximenjie.proseller-demo.com/ordering/api/cart/additem',
@@ -100,108 +77,101 @@ export default function GeneralItemDetail({ setIsOpen, selectedProduct }) {
       if (!response.ok) {
         throw new Error('Failed to add to cart');
       }
-
-      // On success, update the cache with the actual data from the server
-      mutate({ ...data, addedToCart: true });
-      router.push('/cart');
     } catch (error) {
-      // Handle error case
       console.error(error);
-      // Rollback the optimistic update
-      mutate();
     }
   };
 
-  const handleAddItem = async () => {
-    // const finalFormats = Object.values(
-    //   modifiers.reduce((accumulator, item) => {
-    //     if (!accumulator[item.modifierID]) {
-    //       accumulator[item.modifierID] = {
-    //         modifierID: item.modifierID,
-    //         modifer: {
-    //           details: [],
-    //         },
-    //       };
-    //     }
+  // const handleAddItem = async () => {
+  //   // const finalFormats = Object.values(
+  //   //   modifiers.reduce((accumulator, item) => {
+  //   //     if (!accumulator[item.modifierID]) {
+  //   //       accumulator[item.modifierID] = {
+  //   //         modifierID: item.modifierID,
+  //   //         modifer: {
+  //   //           details: [],
+  //   //         },
+  //   //       };
+  //   //     }
 
-    //     accumulator[item.modifierID].modifer.details.push(
-    //       item.modifer.details[0]
-    //     );
+  //   //     accumulator[item.modifierID].modifer.details.push(
+  //   //       item.modifer.details[0]
+  //   //     );
 
-    //     return accumulator;
-    //   }, {})
-    // );
+  //   //     return accumulator;
+  //   //   }, {})
+  //   // );
 
-    const modiferGroupingMap = Object.values(
-      modifiers.reduce((accumulator, item) => {
-        if (!accumulator[item.modifierID]) {
-          accumulator[item.modifierID] = {
-            modifierID: item.modifierID,
-            modifier: {
-              details: [],
-            },
-          };
-        }
+  //   const modiferGroupingMap = Object.values(
+  //     modifiers.reduce((accumulator, item) => {
+  //       if (!accumulator[item.modifierID]) {
+  //         accumulator[item.modifierID] = {
+  //           modifierID: item.modifierID,
+  //           modifier: {
+  //             details: [],
+  //           },
+  //         };
+  //       }
 
-        accumulator[item.modifierID].modifier.details.push({
-          name: item.modifier.name,
-          productID: item.modifier.productID,
-          price: item.modifier.price,
-          quantity: 1,
-        });
+  //       accumulator[item.modifierID].modifier.details.push({
+  //         name: item.modifier.name,
+  //         productID: item.modifier.productID,
+  //         price: item.modifier.price,
+  //         quantity: 1,
+  //       });
 
-        return accumulator;
-      }, {})
-    );
+  //       return accumulator;
+  //     }, {})
+  //   );
 
-    const payload = {
-      details: [
-        {
-          ...(modifiers.length > 0 && { modifiers: modiferGroupingMap }),
-          productID: selectedProduct.productID,
-          quantity: 3,
-          remark: '',
-          unitPrice: selectedProduct.product.retailPrice,
-        },
-      ],
-      outletID: `outlet::${selectedOutlet.id}`,
-    };
+  //   const payload = {
+  //     details: [
+  //       {
+  //         ...(modifiers.length > 0 && { modifiers: modiferGroupingMap }),
+  //         productID: selectedProduct.productID,
+  //         quantity: 3,
+  //         remark: '',
+  //         unitPrice: selectedProduct.product.retailPrice,
+  //       },
+  //     ],
+  //     outletID: `outlet::${selectedOutlet.id}`,
+  //   };
 
-    const response = axios.post(
-      'https://api-ximenjie.proseller-demo.com/ordering/api/cart/additem',
-      payload,
-      {
-        headers: {
-          'Content-type': 'application/json',
-          Authorization: `Bearer ${tokenVal.value}`,
-        },
-      }
-    );
-    toast.promise(
-      response,
-      {
-        loading: 'Please Wait...',
-        success: async ({ data }) => {
-          dispatch(setCountCart(data.data.details.length));
-          setIsOpen(false);
-          return 'successfully added to cart';
-        },
-        error: (err) => {
-          return `This just happened: ${err.message}`;
-        },
-      },
-      {
-        style: {
-          minWidth: '250px',
-          filter: 'drop-shadow(0 25px 25px rgb(0 0 0 / 0.15))',
-        },
-        success: {
-          duration: 5000,
-          icon: '🔥',
-        },
-      }
-    );
-  };
+  //   const response = axios.post(
+  //     'https://api-ximenjie.proseller-demo.com/ordering/api/cart/additem',
+  //     payload,
+  //     {
+  //       headers: {
+  //         'Content-type': 'application/json',
+  //         Authorization: `Bearer ${tokenVal.value}`,
+  //       },
+  //     }
+  //   );
+  //   toast.promise(
+  //     response,
+  //     {
+  //       loading: 'Please Wait...',
+  //       success: async ({ data }) => {
+  //         dispatch(setCountCart(data.data.details.length));
+  //         setIsOpen(false);
+  //         return 'successfully added to cart';
+  //       },
+  //       error: (err) => {
+  //         return `This just happened: ${err.message}`;
+  //       },
+  //     },
+  //     {
+  //       style: {
+  //         minWidth: '250px',
+  //         filter: 'drop-shadow(0 25px 25px rgb(0 0 0 / 0.15))',
+  //       },
+  //       success: {
+  //         duration: 5000,
+  //         icon: '🔥',
+  //       },
+  //     }
+  //   );
+  // };
 
   const renderMinMax = (item) => {
     if (item.modifier.max === 0 || item.modifier.min === 0) {

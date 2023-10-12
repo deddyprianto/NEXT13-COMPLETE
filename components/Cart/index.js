@@ -1,28 +1,11 @@
 'use client';
 import useSWR from 'swr';
-import { useStateValueContext } from '../StateContext';
+import { fetcher } from '@/helper/myfn';
 
 export default function Cart({ tokenVal }) {
-  const fetcher = async (url) => {
-    const response = await fetch(url, {
-      headers: {
-        Accept: 'application.json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${tokenVal.value}`,
-      },
-    });
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message);
-    }
-
-    return data.data;
-  };
-
   const { data } = useSWR(
     'https://api-ximenjie.proseller-demo.com/ordering/api/cart/getcart',
-    fetcher
+    (url) => fetcher(url, tokenVal)
   );
 
   return (
