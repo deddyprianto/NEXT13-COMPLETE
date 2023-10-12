@@ -77,6 +77,7 @@ export default function GeneralItemDetail({ setIsOpen, selectedProduct }) {
       if (!response.ok) {
         throw new Error('Failed to add to cart');
       }
+      mutate({ ...data, addedToCart: true });
     } catch (error) {
       console.error(error);
     }
