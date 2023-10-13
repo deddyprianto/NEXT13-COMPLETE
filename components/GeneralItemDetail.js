@@ -4,9 +4,9 @@ import RadioInput from './RadioInput';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useStateValueContext } from './StateContext';
-import useSWR from 'swr';
 import { useRouter } from 'next/navigation';
-import { fetcher } from '@/helper/myfn';
+import axios from 'axios';
+import { useSWRConfig } from 'swr';
 
 export default function GeneralItemDetail({ setIsOpen, selectedProduct }) {
   const [{ tokenVal }, dispatchContext] = useStateValueContext();
@@ -20,12 +20,43 @@ export default function GeneralItemDetail({ setIsOpen, selectedProduct }) {
 
   const [modifiers, setModifiers] = useState([]);
 
-  const { data, mutate } = useSWR(
-    'https://api-ximenjie.proseller-demo.com/ordering/api/cart/getcart',
-    (url) => fetcher(url, tokenVal)
-  );
+  const { mutate } = useSWRConfig();
+
+  const updateData = async (payload) => {
+    try {
+      await axios.post(
+        'https://api-ximenjie.proseller-demo.com/ordering/api/cart/additem',
+        payload,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${tokenVal.value}`,
+          },
+        }
+      );
+
+      // Fetch the updated cart data
+      const { data } = await axios.get(
+        'https://api-ximenjie.proseller-demo.com/ordering/api/cart/getcart',
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${tokenVal.value}`,
+          },
+        }
+      );
+
+      return data;
+    } catch (error) {
+      console.error(error);
+      // Handle error here
+    }
+  };
 
   const handleAddToCart = async () => {
+    setIsOpen(false);
     const modiferGroupingMap = Object.values(
       modifiers.reduce((accumulator, item) => {
         if (!accumulator[item.modifierID]) {
@@ -62,24 +93,15 @@ export default function GeneralItemDetail({ setIsOpen, selectedProduct }) {
     };
 
     try {
-      const response = await fetch(
-        'https://api-ximenjie.proseller-demo.com/ordering/api/cart/additem',
-        {
-          method: 'POST',
-          body: JSON.stringify(payload),
-          headers: {
-            'Content-type': 'application/json',
-            Authorization: `Bearer ${tokenVal.value}`,
-          },
-        }
+      // Call updateData and pass the updated cart data to mutate
+      const updatedCartData = await updateData(payload);
+      mutate(
+        'https://api-ximenjie.proseller-demo.com/ordering/api/cart/getcart',
+        updatedCartData
       );
-
-      if (!response.ok) {
-        throw new Error('Failed to add to cart');
-      }
-      mutate({ ...data, addedToCart: true });
     } catch (error) {
       console.error(error);
+      // Handle error here
     }
   };
 

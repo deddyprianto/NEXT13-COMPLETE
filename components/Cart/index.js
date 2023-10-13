@@ -1,16 +1,32 @@
 'use client';
+import axios from 'axios';
 import useSWR from 'swr';
-import { fetcher } from '@/helper/myfn';
 
 export default function Cart({ tokenVal }) {
-  const { data } = useSWR(
-    'https://api-ximenjie.proseller-demo.com/ordering/api/cart/getcart',
-    (url) => fetcher(url, tokenVal)
+  const { data, isLoading, error, mutate } = useSWR(
+    `https://api-ximenjie.proseller-demo.com/ordering/api/cart/getcart`,
+    (url) =>
+      axios
+        .get(url, {
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${tokenVal.value}`,
+          },
+        })
+        .then((res) => res.data),
+    {
+      errorRetryInterval: 300000,
+      revalidateOnFocus: false,
+      onError: (error) => {
+        console.error(error);
+        // Handle error here
+      },
+    }
   );
-
   return (
     <div className='p-[16px] h-full overflow-y-auto'>
-      {data?.details?.map((item) => {
+      {data?.data.details?.map((item) => {
         return (
           <div
             key={item.id}
