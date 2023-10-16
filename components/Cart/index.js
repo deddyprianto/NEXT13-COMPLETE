@@ -1,32 +1,18 @@
 'use client';
-import axios from 'axios';
-import useSWR from 'swr';
+import { useFetchData } from '@/hooks/useFetchData';
 
 export default function Cart({ tokenVal }) {
-  const { data, isLoading, error, mutate } = useSWR(
-    `https://api-ximenjie.proseller-demo.com/ordering/api/cart/getcart`,
-    (url) =>
-      axios
-        .get(url, {
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${tokenVal.value}`,
-          },
-        })
-        .then((res) => res.data),
-    {
-      errorRetryInterval: 300000,
-      revalidateOnFocus: false,
-      onError: (error) => {
-        console.error(error);
-        // Handle error here
-      },
-    }
-  );
+  const { data } = useFetchData({
+    token: tokenVal.value,
+    endpoint: 'getcart',
+  });
+  if (data?.status === 'NOTFOUND') {
+    return <p className='text-center'>Your cart is empty</p>;
+  }
+
   return (
     <div className='p-[16px] h-full overflow-y-auto'>
-      {data?.data.details?.map((item) => {
+      {data?.data?.details?.map((item) => {
         return (
           <div
             key={item.id}
