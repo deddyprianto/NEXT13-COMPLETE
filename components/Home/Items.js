@@ -14,7 +14,7 @@ export default function Items({ saveIdCategory, token }) {
       type: actionTypes.SET_TOKEN,
       tokenVal: token,
     });
-  }, []);
+  }, [dispatch, token]);
 
   const [selectedProduct, setSelectedProduct] = useState({});
   const [isOpen, setIsOpen] = useState(false);
@@ -53,9 +53,9 @@ export default function Items({ saveIdCategory, token }) {
             >
               <div className='text-black flex flex-col justify-between pb-4 pt-4 pl-4'>
                 <div className='flex items-center'>
-                  <div className='bg-orange-500 rounded-sm text-white w-5 h-5 text-center text-sm'>
+                  {/* <div className='bg-orange-500 rounded-sm text-white w-5 h-5 text-center text-sm'>
                     3x
-                  </div>
+                  </div> */}
                   <p className='ml-2'>{item?.name}</p>
                 </div>
                 <div>SGD {item?.product?.retailPrice}</div>
@@ -91,9 +91,9 @@ export default function Items({ saveIdCategory, token }) {
             >
               <div className='text-black flex flex-col justify-between pb-4 pt-4 pl-4'>
                 <div className='flex items-center'>
-                  <div className='bg-orange-500 rounded-sm text-white w-5 h-5 text-center text-sm'>
+                  {/* <div className='bg-orange-500 rounded-sm text-white w-5 h-5 text-center text-sm'>
                     3x
-                  </div>
+                  </div> */}
                   <p className='ml-2'>{item?.name}</p>
                 </div>
                 <div>SGD {item?.product?.retailPrice}</div>
