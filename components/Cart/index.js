@@ -1,15 +1,4 @@
-'use client';
-import { useFetchData } from '@/hooks/useFetchData';
-
-export default function Cart({ tokenVal }) {
-  const { data } = useFetchData({
-    token: tokenVal.value,
-    endpoint: 'getcart',
-  });
-  if (data?.status === 'NOTFOUND') {
-    return <p className='text-center'>Your cart is empty</p>;
-  }
-
+export default function Cart({ data }) {
   return (
     <div className='p-[16px] h-full overflow-y-auto'>
       {data?.data?.details?.map((item) => {

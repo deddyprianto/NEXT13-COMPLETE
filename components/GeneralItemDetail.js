@@ -107,11 +107,11 @@ export default function GeneralItemDetail({ setIsOpen, selectedProduct }) {
       {
         optimisticData: (user) => {
           setIsOpen(false);
-          toast.success('Successfully add new item to cart!');
+          toast.success('addedd to cart');
           if (user) {
             const responsUser = {
               ...exampleData,
-              details: [...exampleData.details, ...user.details],
+              details: [...user.details, ...exampleData.details],
             };
             return responsUser;
           } else {
