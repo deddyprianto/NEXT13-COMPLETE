@@ -107,8 +107,8 @@ export default function GeneralItemDetail({ setIsOpen, selectedProduct }) {
       {
         optimisticData: (user) => {
           setIsOpen(false);
-          toast.success('addedd to cart');
           if (user) {
+            toast.success('addedd to cart');
             const responsUser = {
               ...exampleData,
               details: [...user.details, ...exampleData.details],
@@ -119,10 +119,10 @@ export default function GeneralItemDetail({ setIsOpen, selectedProduct }) {
           }
         },
         rollbackOnError(error) {
+          toast.error(`Error: ${error.message}`);
           // If it's timeout abort error, don't rollback
           return error.name !== 'AbortError';
         },
-        revalidate: false,
       }
     );
   };
