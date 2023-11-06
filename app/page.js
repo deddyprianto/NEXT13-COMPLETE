@@ -55,7 +55,7 @@ export default async function Page() {
   const cookieStore = cookies();
   const token = cookieStore.get(COOKIE_NAME);
 
-  // 3 data fetching in Nextj13
+  // 3 data fetching in Nextj13 PRE-RENDERING
   // SERVER SIDE RENDERING SSR (Cache: 'no-store')
   // STATIC SIDE GENERATION SSG (default is cache)
   // INCREMENTAL STATIC  GENERATION ISR (can use both SSR/SSG)
