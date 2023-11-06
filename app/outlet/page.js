@@ -7,6 +7,7 @@ async function getData() {
       cache: 'no-store',
       method: 'post',
       headers: {
+        'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
     }

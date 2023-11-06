@@ -10,7 +10,7 @@ async function getData() {
     {
       method: 'POST',
       headers: {
-        Accept: 'application.json',
+        'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -29,7 +29,7 @@ async function getDataPromoBanner() {
     {
       method: 'POST',
       headers: {
-        Accept: 'application.json',
+        'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
     }
@@ -42,7 +42,7 @@ async function getDataSettings() {
     'https://api-ximenjie.proseller-demo.com/ordering/api/orderingsetting/webOrdering',
     {
       headers: {
-        Accept: 'application.json',
+        'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
     }
