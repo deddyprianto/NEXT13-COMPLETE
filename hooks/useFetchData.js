@@ -1,24 +1,21 @@
 import useSWR from 'swr';
-import axios from 'axios';
 
-export const useFetchData = (endpoint) => {
+export const useFetchData = ({ endpoint, token }) => {
   const { data, isLoading, error, mutate } = useSWR(
-    `https://64a7ca17dca581464b84c889.mockapi.io/students/${endpoint}`,
+    `https://api-ximenjie.proseller-demo.com/ordering/api/cart/${endpoint}`,
     (url) =>
-      axios
-        .get(url, {
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          },
-        })
-        .then((res) => res.data),
+      fetch(url, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      }).then((res) => res.json()),
     {
       errorRetryInterval: 300000,
       revalidateOnFocus: false,
     }
   );
-
   return {
     mutate,
     data,

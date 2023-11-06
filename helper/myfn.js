@@ -31,3 +31,20 @@ export const valuePhoneNumber = (phoneCountryCode, valueSearchCode) => {
  const data = optionCodePhone.filter(createFilter(valueSearchCode));
  return data.map((str) => str.match(/\+(\d+)/)[0]);
 };
+
+export const fetcher = async (url, tokenVal) => {
+  const response = await fetch(url, {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${tokenVal.value}`,
+    },
+  });
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message);
+  }
+
+  return data.data;
+};

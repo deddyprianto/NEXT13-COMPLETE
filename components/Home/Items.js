@@ -1,10 +1,21 @@
 import Image from 'next/image';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useInfiniteLoading } from '@/hooks/useInfiniteLoading';
 import { AnimationLoading } from '../AnimationLoading';
 import { ModalGeneral } from '../ModalGeneral';
+import { useStateValueContext } from '../StateContext';
+import { actionTypes } from '@/helper/reducer';
 
-export default function Items({ saveIdCategory }) {
+export default function Items({ saveIdCategory, token }) {
+  const [tokenValue, dispatch] = useStateValueContext();
+
+  useEffect(() => {
+    dispatch({
+      type: actionTypes.SET_TOKEN,
+      tokenVal: token,
+    });
+  }, [dispatch, token]);
+
   const [selectedProduct, setSelectedProduct] = useState({});
   const [isOpen, setIsOpen] = useState(false);
 
@@ -42,9 +53,9 @@ export default function Items({ saveIdCategory }) {
             >
               <div className='text-black flex flex-col justify-between pb-4 pt-4 pl-4'>
                 <div className='flex items-center'>
-                  <div className='bg-orange-500 rounded-sm text-white w-5 h-5 text-center text-sm'>
+                  {/* <div className='bg-orange-500 rounded-sm text-white w-5 h-5 text-center text-sm'>
                     3x
-                  </div>
+                  </div> */}
                   <p className='ml-2'>{item?.name}</p>
                 </div>
                 <div>SGD {item?.product?.retailPrice}</div>
@@ -80,9 +91,9 @@ export default function Items({ saveIdCategory }) {
             >
               <div className='text-black flex flex-col justify-between pb-4 pt-4 pl-4'>
                 <div className='flex items-center'>
-                  <div className='bg-orange-500 rounded-sm text-white w-5 h-5 text-center text-sm'>
+                  {/* <div className='bg-orange-500 rounded-sm text-white w-5 h-5 text-center text-sm'>
                     3x
-                  </div>
+                  </div> */}
                   <p className='ml-2'>{item?.name}</p>
                 </div>
                 <div>SGD {item?.product?.retailPrice}</div>
