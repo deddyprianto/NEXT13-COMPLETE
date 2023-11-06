@@ -12,8 +12,8 @@ export default function Cta() {
       axios
         .get(url, {
           headers: {
+            'Accept': 'application/json',
             'Content-Type': 'application/json',
-            Accept: 'application/json',
           },
         })
         .then((res) => res.data),

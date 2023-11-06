@@ -6,9 +6,9 @@ export const useFetchData = ({ endpoint, token }) => {
     (url) =>
       fetch(url, {
         headers: {
+          'Accept': 'application/json',
           'Content-Type': 'application/json',
-          Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
+          'Authorization': `Bearer ${token}`,
         },
       }).then((res) => res.json()),
     {
