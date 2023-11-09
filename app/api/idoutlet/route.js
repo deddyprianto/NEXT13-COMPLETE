@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { serialize } from 'cookie';
 import { ID_OUTLET } from '@/constant';
+const MAX_AGE = 60 * 60 * 24 * 30;
 
 export async function POST(request) {
   const body = await request.json();
@@ -16,9 +17,9 @@ export async function POST(request) {
     );
   }
   const seralized = serialize(ID_OUTLET, idOutlet, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    httpOnly: false,
     sameSite: 'strict',
+    maxAge: MAX_AGE,
     path: '/',
   });
   const responseMessage = {
