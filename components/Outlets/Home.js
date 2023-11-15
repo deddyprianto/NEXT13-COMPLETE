@@ -3,6 +3,7 @@ import { setOutletSelected } from '@/store/dataPersistedSlice';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 
 export default function Home({ data }) {
   const dispatch = useDispatch();
@@ -18,9 +19,14 @@ export default function Home({ data }) {
   };
   return (
     <>
-      {data.data.map((item) => {
+      {data.map((item) => {
         return (
           <div
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                handleClickOutlet(item.id, item);
+              }
+            }}
             onClick={() => handleClickOutlet(item.id, item)}
             className={`${
               item.orderingStatus === 'UNAVAILABLE'
@@ -45,3 +51,13 @@ export default function Home({ data }) {
     </>
   );
 }
+Home.propTypes = {
+  data: PropTypes.shape({
+    // Define the structure of the 'data' object here
+    // For instance, if it's an object with specific properties:
+    // You can have additional validations as needed.
+    data: PropTypes.array,
+    // Add other properties of the 'data' object and their types as needed
+  }).isRequired,
+  // Other prop validations...
+};

@@ -20,7 +20,7 @@ export default async function Page() {
   const data = await getData();
   return (
     <div className='h-full w-full overflow-y-auto pl-[16px] pr-[16px] mt-5'>
-      <Home data={data} />
+      <Home data={data.data} />
     </div>
   );
 }
