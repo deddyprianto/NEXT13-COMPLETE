@@ -13,7 +13,7 @@ export default function NavbarHome({
 
   return (
     <>
-      <div class='bg-[#d0d0d0] h-16 flex justify-between items-center'>
+      <div className='bg-[#d0d0d0] h-16 flex justify-between items-center'>
         {firstThreeItems?.map((item) => (
           <div
             key={item?.id}

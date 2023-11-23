@@ -2,10 +2,10 @@ import React from 'react';
 
 const CartItem = ({ itemData }) => {
   return (
-    <div class='flex bg-white rounded-lg shadow-md dark:bg-gray-800 mt-4 mb-4 '>
-      <div class='flex items-center justify-center w-12 bg-emerald-500 rounded-lg'>
+    <div className='flex bg-white rounded-lg shadow-md dark:bg-gray-800 mt-4 mb-4 '>
+      <div className='flex items-center justify-center w-12 bg-emerald-500 rounded-lg'>
         <svg
-          class='w-6 h-6 text-white fill-current'
+          className='w-6 h-6 text-white fill-current'
           viewBox='0 0 40 40'
           xmlns='http://www.w3.org/2000/svg'
         >
@@ -13,12 +13,12 @@ const CartItem = ({ itemData }) => {
         </svg>
       </div>
 
-      <div class='px-4 py-2 -mx-3'>
-        <div class='mx-3'>
-          <span class='font-semibold text-emerald-500 dark:text-emerald-400'>
+      <div className='px-4 py-2 -mx-3'>
+        <div className='mx-3'>
+          <span className='font-semibold text-emerald-500 dark:text-emerald-400'>
             {itemData.name}
           </span>
-          <p class='text-sm text-gray-600 dark:text-gray-200'>
+          <p className='text-sm text-gray-600 dark:text-gray-200'>
             SGD {itemData?.itemType}
           </p>
         </div>

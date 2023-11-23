@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 const getKey = (pageIndex, previousPageData, idCategory, outletSelected) => {
   pageIndex = pageIndex + 1;
   if (previousPageData && !previousPageData.data.length) return null;
-  return `https://api-ximenjie.proseller-demo.com/product/api/productpreset/loaditems/webOrdering/${outletSelected?.id}/${idCategory}?page=${pageIndex}`; // SWR key
+  return `https://api-ximenjie.proseller-demo.com/product/api/productpreset/loaditems/webOrdering/${outletSelected.id}/${idCategory}?page=${pageIndex}`; // SWR key
 };
 export const useInfiniteLoading = (idCategory) => {
   const outletSelected = useSelector(

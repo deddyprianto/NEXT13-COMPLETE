@@ -10,11 +10,11 @@ export default function Home({ data }) {
 
   const router = useRouter();
   const handleClickOutlet = async (id, item) => {
-    const payload = {
-      idOutlet: id,
-    };
+    // const payload = {
+    //   idOutlet: id,
+    // };
     dispatch(setOutletSelected(item));
-    await axios.post('/api/idoutlet', payload);
+    // await axios.post('/api/idoutlet', payload);
     router.push('/');
   };
   return (
