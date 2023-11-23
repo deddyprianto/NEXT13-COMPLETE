@@ -22,7 +22,7 @@ export default function Cart({ tokenVal }) {
             className='flex max-w-md overflow-hidden bg-white rounded-lg shadow-lg h-1/2 mt-2'
           >
             <div
-              class='w-1/3 bg-cover'
+              className='w-1/3 bg-cover'
               style={{
                 backgroundImage:
                   "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKMfvMOVIqyMOsNQpXxFcWKgVIBlgTczksykoEijixRPviorEw7wJptQYbLwUxcZHEy5o&usqp=CAU",

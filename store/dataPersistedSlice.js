@@ -12,7 +12,7 @@ const dataPersistedSlice = createSlice({
   initialState,
   reducers: {
     setAccessToken: (state, action) => {
-      state.accessToken = action.payload;
+      state.accessToken = action.payload; 
     },
     setIsLogin: (state, action) => {
       state.isLogin = action.payload;

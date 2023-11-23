@@ -1,12 +1,11 @@
 import useSWR from 'swr';
 
-export const useFetchDataProduct = ({ idOutlet, payload }) => {
-  const { data, isLoading, error } = useSWR(
-    `https://api-ximenjie.proseller-demo.com/product/api/productpreset/loadcategory/webOrdering/${idOutlet}`,
+export const useFetchPromoBanner = () => {
+  const { data, isLoading, error, mutate } = useSWR(
+    `https://api-ximenjie.proseller-demo.com/masterdata/api/promobanners/load`,
     (url) =>
       fetch(url, {
-        method: 'POST',
-        body: JSON.stringify(payload),
+        method:'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
@@ -14,10 +13,12 @@ export const useFetchDataProduct = ({ idOutlet, payload }) => {
       }).then((res) => res.json()),
     {
       errorRetryInterval: 300000,
+      revalidateOnFocus: false,
     }
   );
   return {
-    data,
+    mutate,
+    data: data?.data,
     isLoading,
     isError: error,
   };
