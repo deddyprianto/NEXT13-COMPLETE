@@ -3,21 +3,33 @@ import Items from './Items';
 import NavbarHome from './NavbarHome';
 import Slider from './Slider';
 import { useEffect, useState } from 'react';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useRouter, redirect } from "next/navigation";
-import { MapPinIcon } from '@heroicons/react/24/solid';
-import { StateProvider } from '../StateContext';
-import { initialState, reducer } from '@/helper/reducer';
+import { MapPinIcon } from "@heroicons/react/24/solid";
+import { StateProvider } from "../StateContext";
+import { initialState, reducer } from "@/helper/reducer";
 import { useFetchDataProduct } from "@/hooks/useFetchDataProduct";
 import { useFetchPromoBanner } from "@/hooks/useFetchPromoBanner";
 import { isEmptyArray, isEmptyObject } from "@/helper/isEmpty";
+import { useFetchData } from "@/hooks/useFetchData";
+import { setCountCart } from "@/store/dataPersistedSlice";
 
 export default function Home({ token }) {
+  const dispatch = useDispatch();
   const isRefreshPage = useSelector((state) => state.dataUser.isRefreshPage);
   const router = useRouter();
   const outletSelected = useSelector(
     (state) => state.dataPersist.outletSelected
   );
+  const { data: datacart } = useFetchData({
+    token: token.value,
+    endpoint: "getcart",
+  });
+  if (datacart?.status === "SUCCESS") {
+    dispatch(setCountCart(datacart.data.details.length));
+  } else {
+    dispatch(setCountCart(0));
+  }
   const { data: dataPromoBanner, isLoading: isLoadingPromoBanner } =
     useFetchPromoBanner();
   const { data, isLoading } = useFetchDataProduct({
