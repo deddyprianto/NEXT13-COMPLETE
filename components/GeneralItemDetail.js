@@ -30,6 +30,7 @@ export default function GeneralItemDetail({ setIsOpen, selectedProduct }) {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${tokenVal.value}`,
         },
       }
     );
