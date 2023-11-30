@@ -114,10 +114,9 @@ export default function GeneralItemDetail({ setIsOpen, selectedProduct }) {
           toast.success("addedd to cart");
           let responsUser = {
             ...exampleData,
-            details: [userDetails, ...exampleData.details],
+            details: [...exampleData.details, ...userDetails],
           };
-          console.log(responsUser.details);
-          // dispatch(setCountCart(nonEmptyArrays.length));
+          dispatch(setCountCart(responsUser.details.length));
           return responsUser;
         },
         rollbackOnError(error) {
