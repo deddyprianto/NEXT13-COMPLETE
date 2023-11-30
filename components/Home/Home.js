@@ -9,30 +9,45 @@ import { MapPinIcon } from "@heroicons/react/24/solid";
 import { StateProvider } from "../StateContext";
 import { initialState, reducer } from "@/helper/reducer";
 import { useFetchDataProduct } from "@/hooks/useFetchDataProduct";
-import { useFetchPromoBanner } from "@/hooks/useFetchPromoBanner";
 import { isEmptyArray, isEmptyObject } from "@/helper/isEmpty";
-import { useFetchData } from "@/hooks/useFetchData";
 import { setCountCart } from "@/store/dataPersistedSlice";
+import axios from "axios";
 
-export default function Home({ token }) {
+export default function Home({ token, dataPromoBanner }) {
   const dispatch = useDispatch();
+  useEffect(() => {
+    const loadDataCart = async () => {
+      try {
+        const { data: datacart } = await axios.get(
+          "https://api-ximenjie.proseller-demo.com/ordering/api/cart/getcart",
+          {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token.value}`,
+            },
+          }
+        );
+        if (datacart && !datacart?.data) {
+          dispatch(setCountCart(0));
+        } else {
+          dispatch(setCountCart(datacart?.data?.details?.length));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    if (token) {
+      loadDataCart();
+    }
+  }, []);
+
   const isRefreshPage = useSelector((state) => state.dataUser.isRefreshPage);
   const router = useRouter();
   const outletSelected = useSelector(
     (state) => state.dataPersist.outletSelected
   );
-  const { data: datacart } = useFetchData({
-    token: token.value,
-    endpoint: "getcart",
-  });
-  if (datacart?.status === "SUCCESS") {
-    dispatch(setCountCart(datacart.data.details.length));
-  } else {
-    dispatch(setCountCart(0));
-  }
-  const { data: dataPromoBanner, isLoading: isLoadingPromoBanner } =
-    useFetchPromoBanner();
-  const { data, isLoading } = useFetchDataProduct({
+  const { data } = useFetchDataProduct({
     idOutlet: outletSelected.id,
     payload: {
       skip: 0,
@@ -52,6 +67,7 @@ export default function Home({ token }) {
 
   useEffect(() => {
     if (outletSelected) {
+      console.log(outletSelected);
       if (isEmptyObject(outletSelected)) {
         redirect("/outlet");
       }
@@ -65,31 +81,28 @@ export default function Home({ token }) {
   }, [isRefreshPage]);
 
   const renderMainComponent = () => {
-    if (isLoading || isLoadingPromoBanner) {
-      return <p>Loading...</p>;
-    } else {
-      return (
-        <div className="pb-16">
-          <Slider dataPromoBanner={dataPromoBanner} />
-          <div
-            className="text-blue-500 font-bold text-center w-full my-2 cursor-pointer text-sm flex items-center justify-center"
-            onClick={() => router.push("/outlet")}
-          >
-            <MapPinIcon className="h-5 w-5" />
-            {outletSelected?.name}
-          </div>
-          <NavbarHome
-            setSaveIdCategory={setSaveIdCategory}
-            saveIdCategory={saveIdCategory}
-            firstThreeItems={firstThreeItems}
-            remainingItems={remainingItems}
-          />
-          {!isEmptyObject(data) && saveIdCategory && (
-            <Items token={token} saveIdCategory={saveIdCategory} />
-          )}
+    return (
+      <div className="pb-16">
+        <div
+          className="text-blue-500 font-bold text-center w-full my-2 cursor-pointer text-sm flex items-center justify-center"
+          onClick={() => router.push("/outlet")}
+        >
+          <MapPinIcon className="h-5 w-5" />
+          {outletSelected?.name}
         </div>
-      );
-    }
+        <Slider dataPromoBanner={dataPromoBanner} />
+
+        <NavbarHome
+          setSaveIdCategory={setSaveIdCategory}
+          saveIdCategory={saveIdCategory}
+          firstThreeItems={firstThreeItems}
+          remainingItems={remainingItems}
+        />
+        {!isEmptyObject(data) && saveIdCategory && (
+          <Items token={token} saveIdCategory={saveIdCategory} />
+        )}
+      </div>
+    );
   };
   return (
     <StateProvider reducer={reducer} initialState={initialState}>
