@@ -2,20 +2,21 @@
 import { useFetchData } from '@/hooks/useFetchData';
 
 export default function Cart({ tokenVal }) {
-  const { data, isLoading } = useFetchData({
+  const { dataRes, isLoading } = useFetchData({
     token: tokenVal.value,
     endpoint: 'getcart',
   });
+
   if (isLoading) {
     return <p className='text-center'>Please wait...</p>;
   }
-  if (data?.status === 'NOTFOUND') {
-    return <p className='text-center'>Your cart is empty</p>;
-  }
+  // if (dataRes?.status === 'NOTFOUND') {
+  //   return <p className='text-center'>Your cart is empty</p>;
+  // }
 
   return (
     <div className='p-[16px] h-full overflow-y-auto'>
-      {data?.data?.details?.map((item) => {
+      {dataRes?.map((item) => {
         return (
           <div
             key={item.id}
@@ -31,7 +32,7 @@ export default function Cart({ tokenVal }) {
 
             <div className='w-2/3 p-4 md:p-4'>
               <h1 className='text-xl font-bold text-gray-800 dark:text-white'>
-                {item.product.name}
+                {item.outletName}
               </h1>
 
               <p className='mt-2 text-sm text-gray-600 dark:text-gray-400'>

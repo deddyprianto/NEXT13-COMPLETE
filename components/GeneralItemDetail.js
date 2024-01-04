@@ -6,38 +6,22 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { useStateValueContext } from './StateContext';
 import { useRouter } from 'next/navigation';
-import { useSWRConfig } from 'swr';
-import { exampleData } from '@/helper/myDummyData';
 import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
 
 export default function GeneralItemDetail({ setIsOpen, selectedProduct }) {
-  const { mutate } = useSWRConfig();
+  const myVariable = process.env.NEXT_PUBLIC_BASE_URL_API;
   const route = useRouter();
   const setting = useSelector((state) => state.dataUser.setting);
   const [{ tokenVal }, dispatchContext] = useStateValueContext();
+  console.log(tokenVal);
   const selectedOutlet = useSelector(
     (state) => state.dataPersist.outletSelected
   );
 
   const [modifiers, setModifiers] = useState([]);
 
-  const updateData = async (payload) => {
-    const response = await axios.post(
-      'https://api-ximenjie.proseller-demo.com/ordering/api/cart/additem',
-      payload,
-      {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${tokenVal.value}`,
-        },
-      }
-    );
-    return response.data.data;
-  };
-
-  const handleAddItem = async () => {
+  const handleAddItem = () => {
     if (!tokenVal) {
       return Swal.fire({
         title: 'Error!',
@@ -50,25 +34,8 @@ export default function GeneralItemDetail({ setIsOpen, selectedProduct }) {
         }
       });
     }
-    // const finalFormats = Object.values(
-    //   modifiers.reduce((accumulator, item) => {
-    //     if (!accumulator[item.modifierID]) {
-    //       accumulator[item.modifierID] = {
-    //         modifierID: item.modifierID,
-    //         modifer: {
-    //           details: [],
-    //         },
-    //       };
-    //     }
 
-    //     accumulator[item.modifierID].modifer.details.push(
-    //       item.modifer.details[0]
-    //     );
-
-    //     return accumulator;
-    //   }, {})
-    // );
-    const modiferGroupingMap = Object.values(
+    const modifierGroup = Object.values(
       modifiers.reduce((accumulator, item) => {
         if (!accumulator[item.modifierID]) {
           accumulator[item.modifierID] = {
@@ -78,7 +45,6 @@ export default function GeneralItemDetail({ setIsOpen, selectedProduct }) {
             },
           };
         }
-
         accumulator[item.modifierID].modifier.details.push({
           name: item.modifier.name,
           productID: item.modifier.productID,
@@ -89,11 +55,10 @@ export default function GeneralItemDetail({ setIsOpen, selectedProduct }) {
         return accumulator;
       }, {})
     );
-
     const payload = {
       details: [
         {
-          ...(modifiers.length > 0 && { modifiers: modiferGroupingMap }),
+          ...(modifiers.length > 0 && { modifiers: modifierGroup }),
           productID: selectedProduct.productID,
           quantity: 3,
           remark: '',
@@ -102,27 +67,37 @@ export default function GeneralItemDetail({ setIsOpen, selectedProduct }) {
       ],
       outletID: `outlet::${selectedOutlet.id}`,
     };
-    mutate(
-      'https://api-ximenjie.proseller-demo.com/ordering/api/cart/additem',
-      updateData(payload),
+
+    const response = axios.post(
+      `${myVariable}/ordering/api/cart/additem`,
+      payload,
       {
-        optimisticData: (user) => {
-          setIsOpen(false);
-          if (user) {
-            toast.success('addedd to cart');
-            const responsUser = {
-              ...exampleData,
-              details: [...user.details, ...exampleData.details],
-            };
-            return responsUser;
-          } else {
-            return exampleData;
-          }
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: `Bearer ${tokenVal.value}`,
         },
-        rollbackOnError(error) {
-          toast.error(`Error: ${error.message}`);
-          // If it's timeout abort error, don't rollback
-          return error.name !== 'AbortError';
+      }
+    );
+    toast.promise(
+      response,
+      {
+        loading: 'Please wait...',
+        success: () => {
+          setIsOpen(false);
+          return 'success add cart';
+        },
+        error: (err) => {
+          return `This just happened: ${err.message}`;
+        },
+      },
+      {
+        style: {
+          minWidth: '250px',
+          filter: 'drop-shadow(0 25px 25px rgb(0 0 0 / 0.15))',
+        },
+        success: {
+          duration: 5000,
+          icon: '🔥',
         },
       }
     );
